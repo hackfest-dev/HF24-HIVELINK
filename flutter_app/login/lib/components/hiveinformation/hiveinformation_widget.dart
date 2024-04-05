@@ -12,17 +12,11 @@ class HiveinformationWidget extends StatefulWidget {
     this.parameter1,
     this.parameter2,
     required this.parameter3,
-    required this.parameter4,
-    this.parameter5,
-    this.parameter6,
   });
 
   final String? parameter1;
   final String? parameter2;
   final String? parameter3;
-  final String? parameter4;
-  final DocumentReference? parameter5;
-  final DocumentReference? parameter6;
 
   @override
   State<HiveinformationWidget> createState() => _HiveinformationWidgetState();
@@ -54,8 +48,11 @@ class _HiveinformationWidgetState extends State<HiveinformationWidget> {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsetsDirectional.fromSTEB(16.0, 0.0, 16.0, 12.0),
-      child: StreamBuilder<AppointmentsRecord>(
-        stream: AppointmentsRecord.getDocument(widget.parameter5!),
+      child: StreamBuilder<List<HivesRecord>>(
+        stream: queryHivesRecord(
+          queryBuilder: (hivesRecord) => hivesRecord.orderBy('name'),
+          singleRecord: true,
+        ),
         builder: (context, snapshot) {
           // Customize what your widget looks like when it's loading.
           if (!snapshot.hasData) {
@@ -70,22 +67,22 @@ class _HiveinformationWidgetState extends State<HiveinformationWidget> {
               ),
             );
           }
-          final appointmentCardAppointmentsRecord = snapshot.data!;
+          List<HivesRecord> appointmentCardHivesRecordList = snapshot.data!;
+          // Return an empty Container when the item does not exist.
+          if (snapshot.data!.isEmpty) {
+            return Container();
+          }
+          final appointmentCardHivesRecord =
+              appointmentCardHivesRecordList.isNotEmpty
+                  ? appointmentCardHivesRecordList.first
+                  : null;
           return InkWell(
             splashColor: Colors.transparent,
             focusColor: Colors.transparent,
             hoverColor: Colors.transparent,
             highlightColor: Colors.transparent,
             onTap: () async {
-              context.pushNamed(
-                'appointmentDetails',
-                queryParameters: {
-                  'appointmentDetails': serializeParam(
-                    appointmentCardAppointmentsRecord.reference,
-                    ParamType.DocumentReference,
-                  ),
-                }.withoutNulls,
-              );
+              context.pushNamed('appointmentDetails');
             },
             child: Container(
               width: MediaQuery.sizeOf(context).width * 1.0,
@@ -142,8 +139,8 @@ class _HiveinformationWidgetState extends State<HiveinformationWidget> {
                             const EdgeInsetsDirectional.fromSTEB(4.0, 4.0, 4.0, 0.0),
                         child: Text(
                           valueOrDefault<String>(
-                            'Hive: ${appointmentCardAppointmentsRecord.appointmentName}',
-                            'For AppointmentName',
+                            'Hive: ${appointmentCardHivesRecord?.name}',
+                            'Hive:',
                           ),
                           style: FlutterFlowTheme.of(context)
                               .bodyMedium
@@ -158,50 +155,17 @@ class _HiveinformationWidgetState extends State<HiveinformationWidget> {
                     Row(
                       mainAxisSize: MainAxisSize.max,
                       children: [
-                        Container(
-                          height: 32.0,
-                          decoration: BoxDecoration(
-                            color:
-                                FlutterFlowTheme.of(context).primaryBackground,
-                            borderRadius: BorderRadius.circular(20.0),
-                          ),
-                          child: Padding(
-                            padding: const EdgeInsetsDirectional.fromSTEB(
-                                8.0, 0.0, 16.0, 0.0),
-                            child: Row(
-                              mainAxisSize: MainAxisSize.max,
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsetsDirectional.fromSTEB(
-                                      8.0, 4.0, 0.0, 4.0),
-                                  child: Text(
-                                    widget.parameter3!,
-                                    style: FlutterFlowTheme.of(context)
-                                        .bodyMedium
-                                        .override(
-                                          fontFamily: 'Outfit',
-                                          letterSpacing: 0.0,
-                                        ),
-                                  ),
+                        Padding(
+                          padding: const EdgeInsetsDirectional.fromSTEB(
+                              8.0, 4.0, 0.0, 4.0),
+                          child: Text(
+                            widget.parameter3!,
+                            style: FlutterFlowTheme.of(context)
+                                .bodyMedium
+                                .override(
+                                  fontFamily: 'Outfit',
+                                  letterSpacing: 0.0,
                                 ),
-                                Padding(
-                                  padding: const EdgeInsetsDirectional.fromSTEB(
-                                      4.0, 0.0, 0.0, 0.0),
-                                  child: Text(
-                                    dateTimeFormat(
-                                        'jm',
-                                        appointmentCardAppointmentsRecord
-                                            .appointmentTime!),
-                                    style: FlutterFlowTheme.of(context)
-                                        .bodySmall
-                                        .override(
-                                          fontFamily: 'Outfit',
-                                          letterSpacing: 0.0,
-                                        ),
-                                  ),
-                                ),
-                              ],
-                            ),
                           ),
                         ),
                       ],

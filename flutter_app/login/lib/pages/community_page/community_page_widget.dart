@@ -3,25 +3,25 @@ import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
-import 'find_symptoms_model.dart';
-export 'find_symptoms_model.dart';
+import 'community_page_model.dart';
+export 'community_page_model.dart';
 
-class FindSymptomsWidget extends StatefulWidget {
-  const FindSymptomsWidget({super.key});
+class CommunityPageWidget extends StatefulWidget {
+  const CommunityPageWidget({super.key});
 
   @override
-  State<FindSymptomsWidget> createState() => _FindSymptomsWidgetState();
+  State<CommunityPageWidget> createState() => _CommunityPageWidgetState();
 }
 
-class _FindSymptomsWidgetState extends State<FindSymptomsWidget> {
-  late FindSymptomsModel _model;
+class _CommunityPageWidgetState extends State<CommunityPageWidget> {
+  late CommunityPageModel _model;
 
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   void initState() {
     super.initState();
-    _model = createModel(context, () => FindSymptomsModel());
+    _model = createModel(context, () => CommunityPageModel());
 
     _model.searchFieldController ??= TextEditingController();
     _model.searchFieldFocusNode ??= FocusNode();

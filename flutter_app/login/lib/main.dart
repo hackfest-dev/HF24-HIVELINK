@@ -120,7 +120,7 @@ class _NavBarPageState extends State<NavBarPage> {
     final tabs = {
       'homePage': const HomePageWidget(),
       'myAppointments': const MyAppointmentsWidget(),
-      'findSymptoms': const FindSymptomsWidget(),
+      'communityPage': const CommunityPageWidget(),
       'profilePage': const ProfilePageWidget(),
     };
     final currentIndex = tabs.keys.toList().indexOf(_currentPageName);

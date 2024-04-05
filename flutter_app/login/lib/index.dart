@@ -14,7 +14,10 @@ export '/pages/appointment_details/appointment_details_widget.dart'
     show AppointmentDetailsWidget;
 export '/pages/profile_page/profile_page_widget.dart' show ProfilePageWidget;
 export '/pages/edit_profile/edit_profile_widget.dart' show EditProfileWidget;
-export '/pages/find_symptoms/find_symptoms_widget.dart' show FindSymptomsWidget;
+export '/pages/community_page/community_page_widget.dart'
+    show CommunityPageWidget;
 export '/pages/appointment_details_profile/appointment_details_profile_widget.dart'
     show AppointmentDetailsProfileWidget;
 export '/pages/maps_page/maps_page_widget.dart' show MapsPageWidget;
+export '/pages/registration_page/registration_page_widget.dart'
+    show RegistrationPageWidget;

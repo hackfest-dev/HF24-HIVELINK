@@ -1,9 +1,9 @@
 import '/components/main_logo/main_logo_widget.dart';
 import '/flutter_flow/flutter_flow_util.dart';
-import 'find_symptoms_widget.dart' show FindSymptomsWidget;
+import 'community_page_widget.dart' show CommunityPageWidget;
 import 'package:flutter/material.dart';
 
-class FindSymptomsModel extends FlutterFlowModel<FindSymptomsWidget> {
+class CommunityPageModel extends FlutterFlowModel<CommunityPageWidget> {
   ///  State fields for stateful widgets in this page.
 
   // Model for main_Logo component.

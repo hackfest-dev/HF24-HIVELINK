@@ -167,11 +167,11 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
           ),
         ),
         FFRoute(
-          name: 'findSymptoms',
-          path: '/findSymptoms',
+          name: 'communityPage',
+          path: '/communityPage',
           builder: (context, params) => params.isEmpty
-              ? const NavBarPage(initialPage: 'findSymptoms')
-              : const FindSymptomsWidget(),
+              ? const NavBarPage(initialPage: 'communityPage')
+              : const CommunityPageWidget(),
         ),
         FFRoute(
           name: 'appointmentDetailsProfile',
@@ -189,6 +189,11 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
           name: 'mapsPage',
           path: '/mapsPage',
           builder: (context, params) => const MapsPageWidget(),
+        ),
+        FFRoute(
+          name: 'registrationPage',
+          path: '/registrationPage',
+          builder: (context, params) => const RegistrationPageWidget(),
         )
       ].map((r) => r.toRoute(appStateNotifier)).toList(),
     );

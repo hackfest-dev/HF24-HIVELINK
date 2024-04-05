@@ -1,6 +1,5 @@
 import '/backend/backend.dart';
 import '/components/hiveinformation/hiveinformation_widget.dart';
-import '/components/main_logo/main_logo_widget.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import 'my_appointments_widget.dart' show MyAppointmentsWidget;
 import 'package:flutter/material.dart';
@@ -9,8 +8,6 @@ import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 class MyAppointmentsModel extends FlutterFlowModel<MyAppointmentsWidget> {
   ///  State fields for stateful widgets in this page.
 
-  // Model for main_Logo component.
-  late MainLogoModel mainLogoModel;
   // State field(s) for ListView widget.
 
   PagingController<DocumentSnapshot?, HivesRecord>? listViewPagingController;
@@ -22,14 +19,12 @@ class MyAppointmentsModel extends FlutterFlowModel<MyAppointmentsWidget> {
 
   @override
   void initState(BuildContext context) {
-    mainLogoModel = createModel(context, () => MainLogoModel());
     hiveinformationModels =
         FlutterFlowDynamicModels(() => HiveinformationModel());
   }
 
   @override
   void dispose() {
-    mainLogoModel.dispose();
     for (var s in listViewStreamSubscriptions) {
       s?.cancel();
     }

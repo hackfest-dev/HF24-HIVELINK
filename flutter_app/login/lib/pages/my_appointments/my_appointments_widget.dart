@@ -3,7 +3,6 @@ import '/backend/backend.dart';
 import '/components/book_appointment/book_appointment_widget.dart';
 import '/components/empty_list/empty_list_widget.dart';
 import '/components/hiveinformation/hiveinformation_widget.dart';
-import '/components/main_logo/main_logo_widget.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import 'package:flutter/material.dart';
@@ -74,22 +73,13 @@ class _MyAppointmentsWidgetState extends State<MyAppointmentsWidget> {
         backgroundColor: FlutterFlowTheme.of(context).primaryBackground,
         automaticallyImplyLeading: false,
         title: Text(
-          'Appointments',
+          'My Hives',
           style: FlutterFlowTheme.of(context).displaySmall.override(
                 fontFamily: 'Outfit',
                 letterSpacing: 0.0,
               ),
         ),
-        actions: [
-          Padding(
-            padding: const EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 16.0, 0.0),
-            child: wrapWithModel(
-              model: _model.mainLogoModel,
-              updateCallback: () => setState(() {}),
-              child: const MainLogoWidget(),
-            ),
-          ),
-        ],
+        actions: const [],
         centerTitle: false,
         elevation: 0.0,
       ),
@@ -104,7 +94,7 @@ class _MyAppointmentsWidgetState extends State<MyAppointmentsWidget> {
                 mainAxisSize: MainAxisSize.max,
                 children: [
                   Text(
-                    'My Appointments',
+                    'Check in on your Beehives',
                     style: FlutterFlowTheme.of(context).bodySmall.override(
                           fontFamily: 'Outfit',
                           letterSpacing: 0.0,
@@ -156,6 +146,7 @@ class _MyAppointmentsWidgetState extends State<MyAppointmentsWidget> {
                         listViewIndex,
                       ),
                       updateCallback: () => setState(() {}),
+                      updateOnChange: true,
                       child: HiveinformationWidget(
                         key: Key(
                           'Key5zr_${listViewHivesRecord.status}',
@@ -166,7 +157,6 @@ class _MyAppointmentsWidgetState extends State<MyAppointmentsWidget> {
                         ),
                         parameter2: listViewHivesRecord.location?.toString(),
                         parameter3: 'Status :',
-                        parameter4: '',
                       ),
                     );
                   },
