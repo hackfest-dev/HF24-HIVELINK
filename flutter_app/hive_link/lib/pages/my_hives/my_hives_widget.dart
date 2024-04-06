@@ -159,7 +159,8 @@ class _MyHivesWidgetState extends State<MyHivesWidget> {
                           width: MediaQuery.sizeOf(context).width * 1.0,
                           height: 110.0,
                           decoration: BoxDecoration(
-                            color: listViewHiveDataCollectionRecord.statusColor,
+                            color: FlutterFlowTheme.of(context)
+                                .secondaryBackground,
                             boxShadow: const [
                               BoxShadow(
                                 blurRadius: 4.0,

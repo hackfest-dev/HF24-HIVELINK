@@ -15,3 +15,4 @@ export '/pages/feeding_shedule/feeding_shedule_widget.dart'
     show FeedingSheduleWidget;
 export '/pages/data_input_page/data_input_page_widget.dart'
     show DataInputPageWidget;
+export '/pages/graph_page/graph_page_widget.dart' show GraphPageWidget;

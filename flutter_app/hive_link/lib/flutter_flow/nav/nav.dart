@@ -5,8 +5,6 @@ import 'package:provider/provider.dart';
 
 import '/auth/base_auth_user_provider.dart';
 
-import '/backend/push_notifications/push_notifications_handler.dart'
-    show PushNotificationsHandler;
 import '/index.dart';
 import '/main.dart';
 import '/flutter_flow/flutter_flow_util.dart';
@@ -145,16 +143,31 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
         FFRoute(
           name: 'FeedingShedule',
           path: '/feedingShedule',
-          builder: (context, params) => params.isEmpty
-              ? const NavBarPage(initialPage: 'FeedingShedule')
-              : const FeedingSheduleWidget(),
+          builder: (context, params) => const FeedingSheduleWidget(),
         ),
         FFRoute(
           name: 'DataInputPage',
           path: '/dataInputPage',
-          builder: (context, params) => params.isEmpty
-              ? const NavBarPage(initialPage: 'DataInputPage')
-              : const DataInputPageWidget(),
+          builder: (context, params) => DataInputPageWidget(
+            hiveInfo: params.getParam(
+              'hiveInfo',
+              ParamType.DocumentReference,
+              false,
+              ['hiveDataCollection'],
+            ),
+          ),
+        ),
+        FFRoute(
+          name: 'GraphPage',
+          path: '/graphPage',
+          builder: (context, params) => GraphPageWidget(
+            hiveInfo: params.getParam(
+              'hiveInfo',
+              ParamType.DocumentReference,
+              false,
+              ['hiveDataCollection'],
+            ),
+          ),
         )
       ].map((r) => r.toRoute(appStateNotifier)).toList(),
     );
@@ -346,7 +359,7 @@ class FFRoute {
                     fit: BoxFit.contain,
                   ),
                 )
-              : PushNotificationsHandler(child: page);
+              : page;
 
           final transitionInfo = state.transitionInfo;
           return transitionInfo.hasTransition

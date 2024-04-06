@@ -1,6 +1,5 @@
-import '/auth/firebase_auth/auth_util.dart';
+import '/backend/api_requests/api_calls.dart';
 import '/backend/backend.dart';
-import '/backend/push_notifications/push_notifications_util.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import 'package:flutter/material.dart';
@@ -34,34 +33,17 @@ class _HiveDetailsPageWidgetState extends State<HiveDetailsPageWidget> {
 
     // On page load action.
     SchedulerBinding.instance.addPostFrameCallback((_) async {
-      _model.loadhiveRef =
+      _model.loadhiveRef1 =
           await HiveDataCollectionRecord.getDocumentOnce(widget.hiveRef!);
-      if (_model.loadhiveRef?.statusNumber == 1) {
+      _model.automaticCall1 = await TestDataCallCall.call(
+        humidityList: _model.loadhiveRef1?.humidityList,
+        temperatureList: _model.loadhiveRef1?.temperatureList,
+        weightList: _model.loadhiveRef1?.weightList,
+        dateTimeList: _model.loadhiveRef1?.timeList,
+      );
+      if ((_model.automaticCall1?.succeeded ?? true)) {
         setState(() {
-          _model.pageStateColor = FlutterFlowTheme.of(context).success;
-          _model.localStatus = FFLocalizations.of(context).getVariableText(
-            enText: 'Healthy',
-            hiText: 'स्वस्थ',
-            knText: 'ಆರೋಗ್ಯಕರ',
-          );
-        });
-      } else if (_model.loadhiveRef?.statusNumber == 0) {
-        setState(() {
-          _model.pageStateColor = _model.loadhiveRef?.statusColor;
-          _model.localStatus = FFLocalizations.of(context).getVariableText(
-            enText: 'Attention Required',
-            hiText: 'ध्यान देने की आवश्यकता',
-            knText: 'ಗಮನ ಅಗತ್ಯ',
-          );
-        });
-      } else if (_model.loadhiveRef?.statusNumber == 2) {
-        setState(() {
-          _model.pageStateColor = _model.loadhiveRef?.statusColor;
-          _model.localStatus = FFLocalizations.of(context).getVariableText(
-            enText: 'Inactive',
-            hiText: 'निष्क्रिय',
-            knText: 'ನಿಷ್ಕ್ರಿಯ',
-          );
+          _model.localStatus = 'demo';
         });
       }
     });
@@ -85,51 +67,17 @@ class _HiveDetailsPageWidgetState extends State<HiveDetailsPageWidget> {
                   _model.hiveDetailsPagePreviousSnapshot)) {
             _model.hiveRef =
                 await HiveDataCollectionRecord.getDocumentOnce(widget.hiveRef!);
-            if (_model.hiveRef!.weight <= 0.0) {
-              triggerPushNotification(
-                notificationTitle: 'Hive Fallen',
-                notificationText:
-                    '${_model.hiveRef?.hiveName} may have Fallen or has been Stolen',
-                notificationSound: 'default',
-                userRefs: [currentUserReference!],
-                initialPageName: 'hiveDetailsPage',
-                parameterData: {
-                  'hiveRef': widget.hiveRef,
-                },
-              );
-            } else if (_model.hiveRef!.hiveTemperature >= 40.0) {
-              triggerPushNotification(
-                notificationTitle: 'Hive Temperature Warning',
-                notificationText:
-                    '${_model.hiveRef?.hiveName}  Temperature is Abnormal',
-                notificationSound: 'default',
-                userRefs: [currentUserReference!],
-                initialPageName: 'hiveDetailsPage',
-                parameterData: {
-                  'hiveRef': widget.hiveRef,
-                },
-              );
-            } else if (_model.hiveRef?.prediction == 0.0) {
-              triggerPushNotification(
-                notificationTitle: 'Hive Refill',
-                notificationText:
-                    'Refill of Supplement Required at ${_model.hiveRef?.hiveName}',
-                notificationSound: 'default',
-                userRefs: [currentUserReference!],
-                initialPageName: 'hiveDetailsPage',
-                parameterData: {
-                  'hiveRef': widget.hiveRef,
-                },
-              );
-            }
-
-            if (_model.hiveRef?.statusNumber == 1) {
+            _model.automaticCall = await TestDataCallCall.call(
+              humidityList:
+                  hiveDetailsPageHiveDataCollectionRecord.humidityList,
+              temperatureList:
+                  hiveDetailsPageHiveDataCollectionRecord.temperatureList,
+              weightList: hiveDetailsPageHiveDataCollectionRecord.weightList,
+              dateTimeList: hiveDetailsPageHiveDataCollectionRecord.timeList,
+            );
+            if ((_model.automaticCall?.succeeded ?? true)) {
               setState(() {
-                _model.pageStateColor = FlutterFlowTheme.of(context).success;
-              });
-            } else {
-              setState(() {
-                _model.pageStateColor = _model.hiveRef?.statusColor;
+                _model.localStatus = 'demo';
               });
             }
 
@@ -163,6 +111,31 @@ class _HiveDetailsPageWidgetState extends State<HiveDetailsPageWidget> {
           child: Scaffold(
             key: scaffoldKey,
             backgroundColor: FlutterFlowTheme.of(context).primaryBackground,
+            floatingActionButton: FloatingActionButton(
+              onPressed: () async {
+                context.pushNamed(
+                  'GraphPage',
+                  queryParameters: {
+                    'hiveInfo': serializeParam(
+                      widget.hiveRef,
+                      ParamType.DocumentReference,
+                    ),
+                  }.withoutNulls,
+                );
+              },
+              backgroundColor: const Color(0xFFFFD288),
+              elevation: 8.0,
+              child: Text(
+                FFLocalizations.of(context).getText(
+                  '58wrsp4j' /* Details */,
+                ),
+                textAlign: TextAlign.center,
+                style: FlutterFlowTheme.of(context).bodyMedium.override(
+                      fontFamily: 'Outfit',
+                      letterSpacing: 0.0,
+                    ),
+              ),
+            ),
             body: SafeArea(
               top: true,
               child: Column(

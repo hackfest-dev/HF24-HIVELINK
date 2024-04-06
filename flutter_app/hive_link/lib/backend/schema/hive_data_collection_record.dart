@@ -31,11 +31,6 @@ class HiveDataCollectionRecord extends FirestoreRecord {
   String get uid => _uid ?? '';
   bool hasUid() => _uid != null;
 
-  // "hiveHumidity" field.
-  double? _hiveHumidity;
-  double get hiveHumidity => _hiveHumidity ?? 0.0;
-  bool hasHiveHumidity() => _hiveHumidity != null;
-
   // "hiveTemperature" field.
   double? _hiveTemperature;
   double get hiveTemperature => _hiveTemperature ?? 0.0;
@@ -51,6 +46,41 @@ class HiveDataCollectionRecord extends FirestoreRecord {
   double get weight => _weight ?? 0.0;
   bool hasWeight() => _weight != null;
 
+  // "location" field.
+  LatLng? _location;
+  LatLng? get location => _location;
+  bool hasLocation() => _location != null;
+
+  // "prediction" field.
+  double? _prediction;
+  double get prediction => _prediction ?? 0.0;
+  bool hasPrediction() => _prediction != null;
+
+  // "temperatureList" field.
+  List<double>? _temperatureList;
+  List<double> get temperatureList => _temperatureList ?? const [];
+  bool hasTemperatureList() => _temperatureList != null;
+
+  // "hiveHumidity" field.
+  int? _hiveHumidity;
+  int get hiveHumidity => _hiveHumidity ?? 0;
+  bool hasHiveHumidity() => _hiveHumidity != null;
+
+  // "humidityList" field.
+  List<int>? _humidityList;
+  List<int> get humidityList => _humidityList ?? const [];
+  bool hasHumidityList() => _humidityList != null;
+
+  // "timeList" field.
+  List<String>? _timeList;
+  List<String> get timeList => _timeList ?? const [];
+  bool hasTimeList() => _timeList != null;
+
+  // "weightList" field.
+  List<double>? _weightList;
+  List<double> get weightList => _weightList ?? const [];
+  bool hasWeightList() => _weightList != null;
+
   // "status" field.
   String? _status;
   String get status => _status ?? '';
@@ -61,41 +91,23 @@ class HiveDataCollectionRecord extends FirestoreRecord {
   String get timestamp => _timestamp ?? '';
   bool hasTimestamp() => _timestamp != null;
 
-  // "statusNumber" field.
-  int? _statusNumber;
-  int get statusNumber => _statusNumber ?? 0;
-  bool hasStatusNumber() => _statusNumber != null;
-
-  // "location" field.
-  LatLng? _location;
-  LatLng? get location => _location;
-  bool hasLocation() => _location != null;
-
-  // "statusColor" field.
-  Color? _statusColor;
-  Color? get statusColor => _statusColor;
-  bool hasStatusColor() => _statusColor != null;
-
-  // "prediction" field.
-  double? _prediction;
-  double get prediction => _prediction ?? 0.0;
-  bool hasPrediction() => _prediction != null;
-
   void _initializeFields() {
     _hiveName = snapshotData['HiveName'] as String?;
     _locationName = snapshotData['LocationName'] as String?;
     _uid = snapshotData['UID'] as String?;
-    _hiveHumidity = castToType<double>(snapshotData['hiveHumidity']);
     _hiveTemperature = castToType<double>(snapshotData['hiveTemperature']);
     _supplementQuantity =
         castToType<double>(snapshotData['supplementQuantity']);
     _weight = castToType<double>(snapshotData['weight']);
+    _location = snapshotData['location'] as LatLng?;
+    _prediction = castToType<double>(snapshotData['prediction']);
+    _temperatureList = getDataList(snapshotData['temperatureList']);
+    _hiveHumidity = castToType<int>(snapshotData['hiveHumidity']);
+    _humidityList = getDataList(snapshotData['humidityList']);
+    _timeList = getDataList(snapshotData['timeList']);
+    _weightList = getDataList(snapshotData['weightList']);
     _status = snapshotData['status'] as String?;
     _timestamp = snapshotData['timestamp'] as String?;
-    _statusNumber = castToType<int>(snapshotData['statusNumber']);
-    _location = snapshotData['location'] as LatLng?;
-    _statusColor = getSchemaColor(snapshotData['statusColor']);
-    _prediction = castToType<double>(snapshotData['prediction']);
   }
 
   static CollectionReference get collection =>
@@ -137,32 +149,28 @@ Map<String, dynamic> createHiveDataCollectionRecordData({
   String? hiveName,
   String? locationName,
   String? uid,
-  double? hiveHumidity,
   double? hiveTemperature,
   double? supplementQuantity,
   double? weight,
+  LatLng? location,
+  double? prediction,
+  int? hiveHumidity,
   String? status,
   String? timestamp,
-  int? statusNumber,
-  LatLng? location,
-  Color? statusColor,
-  double? prediction,
 }) {
   final firestoreData = mapToFirestore(
     <String, dynamic>{
       'HiveName': hiveName,
       'LocationName': locationName,
       'UID': uid,
-      'hiveHumidity': hiveHumidity,
       'hiveTemperature': hiveTemperature,
       'supplementQuantity': supplementQuantity,
       'weight': weight,
+      'location': location,
+      'prediction': prediction,
+      'hiveHumidity': hiveHumidity,
       'status': status,
       'timestamp': timestamp,
-      'statusNumber': statusNumber,
-      'location': location,
-      'statusColor': statusColor,
-      'prediction': prediction,
     }.withoutNulls,
   );
 
@@ -175,19 +183,22 @@ class HiveDataCollectionRecordDocumentEquality
 
   @override
   bool equals(HiveDataCollectionRecord? e1, HiveDataCollectionRecord? e2) {
+    const listEquality = ListEquality();
     return e1?.hiveName == e2?.hiveName &&
         e1?.locationName == e2?.locationName &&
         e1?.uid == e2?.uid &&
-        e1?.hiveHumidity == e2?.hiveHumidity &&
         e1?.hiveTemperature == e2?.hiveTemperature &&
         e1?.supplementQuantity == e2?.supplementQuantity &&
         e1?.weight == e2?.weight &&
-        e1?.status == e2?.status &&
-        e1?.timestamp == e2?.timestamp &&
-        e1?.statusNumber == e2?.statusNumber &&
         e1?.location == e2?.location &&
-        e1?.statusColor == e2?.statusColor &&
-        e1?.prediction == e2?.prediction;
+        e1?.prediction == e2?.prediction &&
+        listEquality.equals(e1?.temperatureList, e2?.temperatureList) &&
+        e1?.hiveHumidity == e2?.hiveHumidity &&
+        listEquality.equals(e1?.humidityList, e2?.humidityList) &&
+        listEquality.equals(e1?.timeList, e2?.timeList) &&
+        listEquality.equals(e1?.weightList, e2?.weightList) &&
+        e1?.status == e2?.status &&
+        e1?.timestamp == e2?.timestamp;
   }
 
   @override
@@ -195,16 +206,18 @@ class HiveDataCollectionRecordDocumentEquality
         e?.hiveName,
         e?.locationName,
         e?.uid,
-        e?.hiveHumidity,
         e?.hiveTemperature,
         e?.supplementQuantity,
         e?.weight,
-        e?.status,
-        e?.timestamp,
-        e?.statusNumber,
         e?.location,
-        e?.statusColor,
-        e?.prediction
+        e?.prediction,
+        e?.temperatureList,
+        e?.hiveHumidity,
+        e?.humidityList,
+        e?.timeList,
+        e?.weightList,
+        e?.status,
+        e?.timestamp
       ]);
 
   @override

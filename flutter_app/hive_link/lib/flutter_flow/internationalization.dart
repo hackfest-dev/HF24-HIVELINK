@@ -441,6 +441,11 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
       'hi': 'स्थिति',
       'kn': 'ಸ್ಥಿತಿ',
     },
+    '58wrsp4j': {
+      'en': 'Details',
+      'hi': '',
+      'kn': '',
+    },
   },
   // chatPage
   {
@@ -489,7 +494,7 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
   // DataInputPage
   {
     'qzj2hd6e': {
-      'en': 'Data Input',
+      'en': 'Simulation Demo\nSwarming/Absconding',
       'hi': 'पंजीकरण पृष्ठ',
       'kn': 'ನೋಂದಣಿ ಪುಟ',
     },
@@ -592,6 +597,59 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
       'en': 'Please choose an option from the dropdown',
       'hi': 'कृपया ड्रॉपडाउन से एक विकल्प चुनें',
       'kn': 'ದಯವಿಟ್ಟು ಡ್ರಾಪ್‌ಡೌನ್‌ನಿಂದ ಆಯ್ಕೆಯನ್ನು ಆರಿಸಿ',
+    },
+    '8fl12isi': {
+      'en': 'Testing',
+      'hi': '',
+      'kn': '',
+    },
+  },
+  // GraphPage
+  {
+    'u3jqyg4h': {
+      'en': 'Advanced Details',
+      'hi': '',
+      'kn': '',
+    },
+    'kns7i841': {
+      'en': 'Humidity',
+      'hi': '',
+      'kn': '',
+    },
+    'm93y8qhf': {
+      'en': 'TIme',
+      'hi': '',
+      'kn': '',
+    },
+    'zlnzkzyy': {
+      'en': 'Temperature',
+      'hi': '',
+      'kn': '',
+    },
+    'ltw0bci4': {
+      'en': 'Temperature',
+      'hi': '',
+      'kn': '',
+    },
+    'h0i6ohd7': {
+      'en': 'TIme',
+      'hi': '',
+      'kn': '',
+    },
+    'y6mgzj3i': {
+      'en': 'Temperature',
+      'hi': '',
+      'kn': '',
+    },
+    'rjipk2o7': {
+      'en': 'Test Input',
+      'hi': '',
+      'kn': '',
+    },
+    '64zk1eug': {
+      'en': 'Home',
+      'hi': '',
+      'kn': '',
     },
   },
   // main_Logo
