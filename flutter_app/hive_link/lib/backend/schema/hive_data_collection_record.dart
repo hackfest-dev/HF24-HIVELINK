@@ -87,8 +87,8 @@ class HiveDataCollectionRecord extends FirestoreRecord {
   bool hasStatus() => _status != null;
 
   // "timestamp" field.
-  String? _timestamp;
-  String get timestamp => _timestamp ?? '';
+  DateTime? _timestamp;
+  DateTime? get timestamp => _timestamp;
   bool hasTimestamp() => _timestamp != null;
 
   void _initializeFields() {
@@ -107,7 +107,7 @@ class HiveDataCollectionRecord extends FirestoreRecord {
     _timeList = getDataList(snapshotData['timeList']);
     _weightList = getDataList(snapshotData['weightList']);
     _status = snapshotData['status'] as String?;
-    _timestamp = snapshotData['timestamp'] as String?;
+    _timestamp = snapshotData['timestamp'] as DateTime?;
   }
 
   static CollectionReference get collection =>
@@ -156,7 +156,7 @@ Map<String, dynamic> createHiveDataCollectionRecordData({
   double? prediction,
   int? hiveHumidity,
   String? status,
-  String? timestamp,
+  DateTime? timestamp,
 }) {
   final firestoreData = mapToFirestore(
     <String, dynamic>{

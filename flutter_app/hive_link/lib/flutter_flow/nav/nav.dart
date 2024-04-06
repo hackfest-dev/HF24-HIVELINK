@@ -146,9 +146,9 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
           builder: (context, params) => const FeedingSheduleWidget(),
         ),
         FFRoute(
-          name: 'DataInputPage',
-          path: '/dataInputPage',
-          builder: (context, params) => DataInputPageWidget(
+          name: 'DataSimulationPage',
+          path: '/dataSimulationPage',
+          builder: (context, params) => DataSimulationPageWidget(
             hiveInfo: params.getParam(
               'hiveInfo',
               ParamType.DocumentReference,

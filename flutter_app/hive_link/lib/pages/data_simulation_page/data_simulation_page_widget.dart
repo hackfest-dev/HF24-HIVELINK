@@ -7,11 +7,11 @@ import '/flutter_flow/flutter_flow_widgets.dart';
 import '/flutter_flow/upload_data.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'data_input_page_model.dart';
-export 'data_input_page_model.dart';
+import 'data_simulation_page_model.dart';
+export 'data_simulation_page_model.dart';
 
-class DataInputPageWidget extends StatefulWidget {
-  const DataInputPageWidget({
+class DataSimulationPageWidget extends StatefulWidget {
+  const DataSimulationPageWidget({
     super.key,
     required this.hiveInfo,
   });
@@ -19,18 +19,19 @@ class DataInputPageWidget extends StatefulWidget {
   final DocumentReference? hiveInfo;
 
   @override
-  State<DataInputPageWidget> createState() => _DataInputPageWidgetState();
+  State<DataSimulationPageWidget> createState() =>
+      _DataSimulationPageWidgetState();
 }
 
-class _DataInputPageWidgetState extends State<DataInputPageWidget> {
-  late DataInputPageModel _model;
+class _DataSimulationPageWidgetState extends State<DataSimulationPageWidget> {
+  late DataSimulationPageModel _model;
 
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   void initState() {
     super.initState();
-    _model = createModel(context, () => DataInputPageModel());
+    _model = createModel(context, () => DataSimulationPageModel());
 
     _model.textController1 ??= TextEditingController();
     _model.textFieldFocusNode1 ??= FocusNode();
@@ -70,7 +71,7 @@ class _DataInputPageWidgetState extends State<DataInputPageWidget> {
             ),
           );
         }
-        final dataInputPageHiveDataCollectionRecord = snapshot.data!;
+        final dataSimulationPageHiveDataCollectionRecord = snapshot.data!;
         return GestureDetector(
           onTap: () => _model.unfocusNode.canRequestFocus
               ? FocusScope.of(context).requestFocus(_model.unfocusNode)
@@ -378,16 +379,17 @@ Swarming/Absco... */
                             _model.testDataCall = await TestDataCallCall.call(
                               audioURL: _model.uploadedFileUrl,
                               humidityList:
-                                  dataInputPageHiveDataCollectionRecord
+                                  dataSimulationPageHiveDataCollectionRecord
                                       .humidityList,
                               temperatureList:
-                                  dataInputPageHiveDataCollectionRecord
+                                  dataSimulationPageHiveDataCollectionRecord
                                       .temperatureList,
-                              dateTimeList:
-                                  dataInputPageHiveDataCollectionRecord
-                                      .timeList,
-                              weightList: dataInputPageHiveDataCollectionRecord
-                                  .weightList,
+                              dateTime:
+                                  dataSimulationPageHiveDataCollectionRecord
+                                      .timestamp?.secondsSinceEpoch,
+                              weightList:
+                                  dataSimulationPageHiveDataCollectionRecord
+                                      .weightList,
                             );
                             if ((_model.testDataCall?.succeeded ?? true)) {
                               await showDialog(

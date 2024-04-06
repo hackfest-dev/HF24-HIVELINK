@@ -13,6 +13,6 @@ export '/pages/google_maps_page/google_maps_page_widget.dart'
     show GoogleMapsPageWidget;
 export '/pages/feeding_shedule/feeding_shedule_widget.dart'
     show FeedingSheduleWidget;
-export '/pages/data_input_page/data_input_page_widget.dart'
-    show DataInputPageWidget;
+export '/pages/data_simulation_page/data_simulation_page_widget.dart'
+    show DataSimulationPageWidget;
 export '/pages/graph_page/graph_page_widget.dart' show GraphPageWidget;

@@ -491,7 +491,7 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
       'kn': 'ಜೇನುಗೂಡುಗಳು',
     },
   },
-  // DataInputPage
+  // DataSimulationPage
   {
     'qzj2hd6e': {
       'en': 'Simulation Demo\nSwarming/Absconding',

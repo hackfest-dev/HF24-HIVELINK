@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import '/flutter_flow/flutter_flow_util.dart';
 import 'api_manager.dart';
 
 export 'api_manager.dart' show ApiCallResponse;
@@ -11,14 +12,13 @@ class TestDataCallCall {
     List<int>? humidityList,
     List<double>? temperatureList,
     List<double>? weightList,
-    List<String>? dateTimeList,
+    int? dateTime,
     String? audioURL =
-        'https://firebasestorage.googleapis.com/v0/b/login-25hn6a.appspot.com/o/users%2FhI4VKFFMydYxlAK8L9OdCOL1C5B3%2Fuploads%2F1712380442602174.wav?alt=media&token=0527740c-f50f-47bf-825e-6c0d2867272b',
+        'https://firebasestorage.googleapis.com/v0/b/login-25hn6a.appspot.com/o/users%2FhI4VKFFMydYxlAK8L9OdCOL1C5B3%2Fuploads%2Fhigh.wav?alt=media&token=10b4dab3-3d61-400d-8524-34a5ac19729c',
   }) async {
     final humidity = _serializeList(humidityList);
     final temperature = _serializeList(temperatureList);
     final weight = _serializeList(weightList);
-    final dateTime = _serializeList(dateTimeList);
 
     final ffApiRequestBody = '''
 {
@@ -30,7 +30,7 @@ class TestDataCallCall {
 }''';
     return ApiManager.instance.makeApiCall(
       callName: 'TestDataCall',
-      apiUrl: 'https://4d1f-117-236-190-193.ngrok-free.app/hive',
+      apiUrl: 'https://2eaa-115-243-167-82.ngrok-free.app/hive',
       callType: ApiCallType.POST,
       headers: {
         'message': '',
@@ -45,6 +45,11 @@ class TestDataCallCall {
       alwaysAllowBody: false,
     );
   }
+
+  static dynamic statusActivity(dynamic response) => getJsonField(
+        response,
+        r'''$.data.status_activity''',
+      );
 }
 
 class ChatBotCallCall {

@@ -267,7 +267,7 @@ class _GraphPageWidgetState extends State<GraphPageWidget> {
                     FFButtonWidget(
                       onPressed: () async {
                         context.pushNamed(
-                          'DataInputPage',
+                          'DataSimulationPage',
                           queryParameters: {
                             'hiveInfo': serializeParam(
                               widget.hiveInfo,

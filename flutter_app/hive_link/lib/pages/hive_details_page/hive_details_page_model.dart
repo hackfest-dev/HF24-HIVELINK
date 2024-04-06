@@ -11,6 +11,8 @@ class HiveDetailsPageModel extends FlutterFlowModel<HiveDetailsPageWidget> {
 
   String? localStatus;
 
+  int? statusNumber;
+
   ///  State fields for stateful widgets in this page.
 
   final unfocusNode = FocusNode();

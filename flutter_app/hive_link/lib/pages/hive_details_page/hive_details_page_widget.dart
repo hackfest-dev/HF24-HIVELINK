@@ -39,13 +39,29 @@ class _HiveDetailsPageWidgetState extends State<HiveDetailsPageWidget> {
         humidityList: _model.loadhiveRef1?.humidityList,
         temperatureList: _model.loadhiveRef1?.temperatureList,
         weightList: _model.loadhiveRef1?.weightList,
-        dateTimeList: _model.loadhiveRef1?.timeList,
+        dateTime: _model.loadhiveRef1?.timestamp?.secondsSinceEpoch,
       );
       if ((_model.automaticCall1?.succeeded ?? true)) {
         setState(() {
-          _model.localStatus = 'demo';
+          _model.statusNumber = TestDataCallCall.statusActivity(
+            (_model.automaticCall1?.jsonBody ?? ''),
+          );
         });
       }
+      if (_model.statusNumber == 0) {
+        setState(() {
+          _model.localStatus = 'Healthy';
+        });
+      } else if (_model.statusNumber == 1) {
+        setState(() {
+          _model.localStatus = 'Swarming Detected';
+        });
+      }
+
+      await widget.hiveRef!.update(createHiveDataCollectionRecordData(
+        status: _model.localStatus,
+      ));
+      await Future.delayed(const Duration(milliseconds: 60000));
     });
   }
 
@@ -73,13 +89,30 @@ class _HiveDetailsPageWidgetState extends State<HiveDetailsPageWidget> {
               temperatureList:
                   hiveDetailsPageHiveDataCollectionRecord.temperatureList,
               weightList: hiveDetailsPageHiveDataCollectionRecord.weightList,
-              dateTimeList: hiveDetailsPageHiveDataCollectionRecord.timeList,
+              dateTime: hiveDetailsPageHiveDataCollectionRecord
+                  .timestamp?.secondsSinceEpoch,
             );
             if ((_model.automaticCall?.succeeded ?? true)) {
               setState(() {
-                _model.localStatus = 'demo';
+                _model.statusNumber = TestDataCallCall.statusActivity(
+                  (_model.automaticCall?.jsonBody ?? ''),
+                );
               });
             }
+            if (_model.statusNumber == 0) {
+              setState(() {
+                _model.localStatus = 'Healthy';
+              });
+            } else if (_model.statusNumber == 1) {
+              setState(() {
+                _model.localStatus = 'Swarming Detected';
+              });
+            }
+
+            await widget.hiveRef!.update(createHiveDataCollectionRecordData(
+              status: _model.localStatus,
+            ));
+            await Future.delayed(const Duration(milliseconds: 60000));
 
             setState(() {});
           }

@@ -1,9 +1,10 @@
 import '/backend/api_requests/api_calls.dart';
 import '/flutter_flow/flutter_flow_util.dart';
-import 'data_input_page_widget.dart' show DataInputPageWidget;
+import 'data_simulation_page_widget.dart' show DataSimulationPageWidget;
 import 'package:flutter/material.dart';
 
-class DataInputPageModel extends FlutterFlowModel<DataInputPageWidget> {
+class DataSimulationPageModel
+    extends FlutterFlowModel<DataSimulationPageWidget> {
   ///  Local state fields for this page.
 
   dynamic testingData;
