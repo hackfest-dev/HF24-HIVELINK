@@ -47,7 +47,7 @@ function writeDataToFirebase() {
   var dataImport = {};
   var firestore = FirestoreApp.getFirestore(
     "firebase-adminsdk-7kg2n@login-25hn6a.iam.gserviceaccount.com",
-    "PRIVATEKEY",
+    <FIREBAKEY>,
     "login-25hn6a"
   );
 
@@ -67,8 +67,86 @@ function writeDataToFirebase() {
     var supplementQuantity = row[4]; // Assuming Supplement Quantity is in column E
     var weight = row[5]; // Assuming Weight is in column F
 
+    if(weight < 2000 || weight > 10000){
+      var status = 'Inactive';
+      var statusNumber =  2;
+      var statusColor = "#FCDC0C";
+      if(hiveTemperature>32){
+        var status = 'Attention Required';
+        var statusNumber =  0;
+        var statusColor = "#E21C3D";
+      }
+    }else{
+      var status = 'Healthy';
+      var statusNumber =  1;
+      var statusColor = "#FFFFFF";
+    }
+
     var existingData = firestore.getDocument('hiveDataCollection/' + 'hiveData1');
     var location = existingData['fields']['location']['geoPointValue'];
+    var oldTimeList = existingData['fields']['timeList'];
+var oldHumidityList = existingData['fields']['humidityList'];
+var oldTempList = existingData['fields']['temperatureList'];
+
+// Function to convert Firestore values to numbers
+function toNumber(value) {
+  if (value === null || value === undefined) {
+    return null;
+  }
+  // Check if the value is already a number
+  if (typeof value === 'number') {
+    return value;
+  }
+  // If not, try converting it to a number
+  var numValue = parseFloat(value);
+  // Check if the conversion was successful
+  if (!isNaN(numValue)) {
+    return numValue;
+  }
+  // If conversion failed, return null
+  return null;
+}
+
+
+// Initialize lists as arrays if they are not already arrays
+if (!Array.isArray(oldHumidityList)) {
+  // Check if oldHumidityList exists in existingData and is an array
+  if (existingData.fields.humidityList && existingData.fields.humidityList.arrayValue.values) {
+    oldHumidityList = existingData.fields.humidityList.arrayValue.values
+      .map(function(item) {
+        return toNumber(item.integerValue);
+      })
+      .filter(function(value) {
+        return value !== null;
+      });
+  } else {
+    oldHumidityList = [];
+  }
+}
+
+if (!Array.isArray(oldTempList)) {
+  // Check if oldTempList exists in existingData and is an array
+  if (existingData.fields.temperatureList && existingData.fields.temperatureList.arrayValue.values) {
+    oldTempList = existingData.fields.temperatureList.arrayValue.values
+      .map(function(item) {
+        return toNumber(item.doubleValue);
+      })
+      .filter(function(value) {
+        return value !== null;
+      });
+  } else {
+    oldTempList = [];
+  }
+}
+
+  Logger.log(oldHumidityList)
+  oldHumidityList.push(hiveHumidity);
+  Logger.log(oldHumidityList)
+  oldTempList.push(hiveTemperature);
+  // oldTimeList.push(timestamp)
+
+
+
 
     var prediction = fetchPrediction(supplementQuantity)
 
@@ -85,7 +163,11 @@ function writeDataToFirebase() {
       LocationName:'Vamanjoor',
       statusNumber:statusNumber,
       statusColor: statusColor,
-      prediction:prediction["prediction"]
+      prediction:prediction["prediction"],
+      temperatureList:oldTempList,
+      humidityList:oldHumidityList,
+      timeList:[],
+
     };
     Logger.log(documentData)
     // Write the document to Firestore
