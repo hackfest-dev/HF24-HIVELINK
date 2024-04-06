@@ -1,46 +1,31 @@
-function fetchPrediction(syrup_level) {
-  if (syrup_level === undefined) {
-    Logger.log("Syrup level is undefined. Aborting fetch.");
-    return;
-  }
-  if(syrup_level <30){
-    return {"prediction":0}
-  }
-  try {
-    var apiUrl = "https://1950-152-58-211-99.ngrok-free.app/get_schedule_prediction?syrup_level=" +syrup_level;
-
-    var options = {
-      'method': 'post',
-      'contentType': 'application/json',
-    };
-
-    var response = UrlFetchApp.fetch(apiUrl, options);
-    var responseData = response.getContentText();
-    var parsedData = JSON.parse(responseData);
-    return parsedData;// Log the response data
-  } catch (error) {
-    Logger.log("Error fetching prediction: " + error.toString());
-  }
-}
-
 function parseDateTime(dateObject, timeString) {
-    // Check if dateObject is a Date object
     if (!(dateObject instanceof Date)) {
         throw new Error('Invalid input: dateString must be a Date object.');
     }
 
-    // Extract year, month, and day components from the date object
     var year = dateObject.getFullYear();
     var month = dateObject.getMonth();
     var day = dateObject.getDate();
-  
     var hour = timeString.getHours();
     var minute = timeString.getMinutes()
   
-    // Create a new Date object with the combined date and time components
     var datetime = new Date(year, month, day, hour, minute);
   
     return datetime;
+}
+
+function toNumber(value) {
+  if (value === null || value === undefined) {
+    return null;
+  }
+  if (typeof value === 'number') {
+    return value;
+  }
+  var numValue = parseFloat(value);
+  if (!isNaN(numValue)) {
+    return numValue;
+  }
+  return null;
 }
 
 function writeDataToFirebase() {
@@ -58,9 +43,8 @@ function writeDataToFirebase() {
   for (var i = data.length-1; i < data.length; i++) {
     var row = data[i];
 
-    // Extract data from the row
     var date = row[0]
-    var timestamp = row[1]; // Assuming Time and Hive Temperature are in columns A and B
+    var timestamp = row[1];
     var hiveTemperature; 
     if(row[2] == NaN || row[2] == "nan"){
       var hiveTemperature = 0; 
@@ -68,112 +52,65 @@ function writeDataToFirebase() {
       var hiveTemperature = row[2]; 
     }
     var hiveHumidity = ( row[3] > 100) ? 0: row[3];
-    var supplementQuantity = row[4]; // Assuming Supplement Quantity is in column E
-    var weight = row[5]; // Assuming Weight is in column F
+    var supplementQuantity = row[4]; 
+    var weight = row[5]; 
 
 
     var existingData = firestore.getDocument('hiveDataCollection/' + 'hiveData1');
     var location = existingData['fields']['location']['geoPointValue'];
-    // var oldTimeList = existingData['fields']['timeList'];
     var oldHumidityList = existingData['fields']['humidityList'];
     var oldTempList = existingData['fields']['temperatureList'];
     var oldWeightList = existingData['fields']['weightList'];
     var existingStatus = existingData['fields']['status'].stringValue;
-    Logger.log(existingStatus)
+    // Logger.log(existingStatus)
     
 
+    if (!Array.isArray(oldHumidityList)) {
+      if (existingData.fields.humidityList && existingData.fields.humidityList.arrayValue.values) {
+        oldHumidityList = existingData.fields.humidityList.arrayValue.values
+          .map(function(item) {
+            return toNumber(item.integerValue);
+          })
+          .filter(function(value) {
+            return value !== null;
+          });
+      } else {
+        oldHumidityList = [];
+      }
+    }
 
+    if (!Array.isArray(oldTempList)) {
+      if (existingData.fields.temperatureList && existingData.fields.temperatureList.arrayValue.values) {
+        oldTempList = existingData.fields.temperatureList.arrayValue.values
+          .map(function(item) {
+            return toNumber(item.doubleValue);
+          })
+          .filter(function(value) {
+            return value !== null;
+          });
+      } else {
+        oldTempList = [];
+      }
+    }
 
-// Function to convert Firestore values to numbers
-function toNumber(value) {
-  if (value === null || value === undefined) {
-    return null;
-  }
-  // Check if the value is already a number
-  if (typeof value === 'number') {
-    return value;
-  }
-  // If not, try converting it to a number
-  var numValue = parseFloat(value);
-  // Check if the conversion was successful
-  if (!isNaN(numValue)) {
-    return numValue;
-  }
-  // If conversion failed, return null
-  return null;
-}
+    if (!Array.isArray(oldWeightList)) {
+      if (existingData.fields.weightList && existingData.fields.weightList.arrayValue.values) {
+        oldWeightList = existingData.fields.weightList.arrayValue.values
+          .map(function(item) {
+            return toNumber(item.doubleValue);
+          })
+          .filter(function(value) {
+            return value !== null;
+          });
+      } else {
+        oldWeightList = [];
+      }
+    }
 
+    oldHumidityList.push(hiveHumidity);
+    oldTempList.push(hiveTemperature);
+    oldWeightList.push(weight)
 
-// Initialize lists as arrays if they are not already arrays
-if (!Array.isArray(oldHumidityList)) {
-  // Check if oldHumidityList exists in existingData and is an array
-  if (existingData.fields.humidityList && existingData.fields.humidityList.arrayValue.values) {
-    oldHumidityList = existingData.fields.humidityList.arrayValue.values
-      .map(function(item) {
-        return toNumber(item.integerValue);
-      })
-      .filter(function(value) {
-        return value !== null;
-      });
-  } else {
-    oldHumidityList = [];
-  }
-}
-
-if (!Array.isArray(oldTempList)) {
-  // Check if oldTempList exists in existingData and is an array
-  if (existingData.fields.temperatureList && existingData.fields.temperatureList.arrayValue.values) {
-    oldTempList = existingData.fields.temperatureList.arrayValue.values
-      .map(function(item) {
-        return toNumber(item.doubleValue);
-      })
-      .filter(function(value) {
-        return value !== null;
-      });
-  } else {
-    oldTempList = [];
-  }
-}
-
-// if (!Array.isArray(oldTimeList)) {
-//   // Check if oldTimeList exists in existingData and is an array
-//   if (existingData.fields.timeList && existingData.fields.timeList.arrayValue.values) {
-//     oldTimeList = existingData.fields.timeList.arrayValue.values
-//       .map(function(item) {
-//         return new Date(item.stringValue); // Convert time values to Date objects
-//       })
-//       .filter(function(value) {
-//         return value !== null && !isNaN(value.getTime()); // Filter out invalid dates
-//       });
-//   } else {
-//     oldTimeList = [];
-//   }
-// }
-  
-  if (!Array.isArray(oldWeightList)) {
-  // Check if oldWeightList exists in existingData and is an array
-  if (existingData.fields.weightList && existingData.fields.weightList.arrayValue.values) {
-    oldWeightList = existingData.fields.weightList.arrayValue.values
-      .map(function(item) {
-        return toNumber(item.doubleValue);
-      })
-      .filter(function(value) {
-        return value !== null;
-      });
-  } else {
-    oldWeightList = [];
-  }
-}
-
-  // oldHumidityList.push(hiveHumidity);
-  // oldTempList.push(hiveTemperature);
-  // // oldTimeList.push(timestamp)
-  // oldWeightList.push(weight)
-  Logger.log(typeof timestamp)
-
-
-
-    // Create a Firestore document with the extracted data
     var documentData = {
       HiveName: 'Hive1',
       status: existingStatus,
@@ -186,13 +123,11 @@ if (!Array.isArray(oldTempList)) {
       LocationName:'Vamanjoor',
       temperatureList:oldTempList,
       humidityList:oldHumidityList,
-      // timeList:oldTimeList,
       weightList:oldWeightList
 
     };
     Logger.log(documentData)
-    // Write the document to Firestore
-    var documentId = timestamp.getTime().toString(); // Convert timestamp to milliseconds and use as string
+    var documentId = timestamp.getTime().toString(); 
     firestore.updateDocument('hiveDataCollection/' + 'hiveData1', documentData);
   }
 }
