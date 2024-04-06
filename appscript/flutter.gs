@@ -1,33 +1,3 @@
-function extractTime(timestampString) {
-  var date = new Date(timestampString); // Convert the timestamp string to a Date object
-  
-  // Get the hours, minutes, and seconds from the Date object
-  var hours = date.getHours();
-  var minutes = date.getMinutes();
-  var seconds = date.getSeconds();
-  
-  // Format the time as HH:mm:ss
-  var timeFormatted = ("0" + hours).slice(-2) + ":" + ("0" + minutes).slice(-2) + ":" + ("0" + seconds).slice(-2);
-  
-  return timeFormatted; 
-}
-
-function datetimeToUnix(timestamp, yearsToAdd=125) {
-  // Check if timestamp is a Date object
-  if (!(timestamp instanceof Date)) {
-    throw new Error('Input is not a Date object');
-  }
-
-  // Add years to the date
-  var newDate = new Date(timestamp.getTime()); // Create a copy of the input date
-  newDate.setFullYear(newDate.getFullYear() + yearsToAdd); // Add years to the copy
-
-  // Obtain the Unix timestamp from the new date
-  var unixTimestamp = Math.floor(newDate.getTime() / 1000); // Convert milliseconds to seconds
-
-  return unixTimestamp;
-}
-
 function fetchPrediction(syrup_level) {
   if (syrup_level === undefined) {
     Logger.log("Syrup level is undefined. Aborting fetch.");
@@ -53,7 +23,25 @@ function fetchPrediction(syrup_level) {
   }
 }
 
+function parseDateTime(dateObject, timeString) {
+    // Check if dateObject is a Date object
+    if (!(dateObject instanceof Date)) {
+        throw new Error('Invalid input: dateString must be a Date object.');
+    }
 
+    // Extract year, month, and day components from the date object
+    var year = dateObject.getFullYear();
+    var month = dateObject.getMonth();
+    var day = dateObject.getDate();
+  
+    var hour = timeString.getHours();
+    var minute = timeString.getMinutes()
+  
+    // Create a new Date object with the combined date and time components
+    var datetime = new Date(year, month, day, hour, minute);
+  
+    return datetime;
+}
 
 function writeDataToFirebase() {
   var ss = SpreadsheetApp.openById("1EX2AG-2kj42PIPrY9d4QhKYPfHS6xhJKOzVQ9Gs7zs8");
@@ -71,6 +59,7 @@ function writeDataToFirebase() {
     var row = data[i];
 
     // Extract data from the row
+    var date = row[0]
     var timestamp = row[1]; // Assuming Time and Hive Temperature are in columns A and B
     var hiveTemperature; 
     if(row[2] == NaN || row[2] == "nan"){
@@ -82,20 +71,6 @@ function writeDataToFirebase() {
     var supplementQuantity = row[4]; // Assuming Supplement Quantity is in column E
     var weight = row[5]; // Assuming Weight is in column F
 
-    if(weight < 2000 || weight > 10000){
-      var status = 'Inactive';
-      var statusNumber =  2;
-      var statusColor = "#FCDC0C";
-      if(hiveTemperature>32){
-        var status = 'Attention Required';
-        var statusNumber =  0;
-        var statusColor = "#E21C3D";
-      }
-    }else{
-      var status = 'Healthy';
-      var statusNumber =  1;
-      var statusColor = "#FFFFFF";
-    }
 
     var existingData = firestore.getDocument('hiveDataCollection/' + 'hiveData1');
     var location = existingData['fields']['location']['geoPointValue'];
@@ -103,6 +78,8 @@ function writeDataToFirebase() {
     var oldHumidityList = existingData['fields']['humidityList'];
     var oldTempList = existingData['fields']['temperatureList'];
     var oldWeightList = existingData['fields']['weightList'];
+    var existingStatus = existingData['fields']['status'].stringValue;
+    Logger.log(existingStatus)
     
 
 
@@ -188,19 +165,19 @@ if (!Array.isArray(oldTempList)) {
   }
 }
 
-  oldHumidityList.push(hiveHumidity);
-  oldTempList.push(hiveTemperature);
-  // oldTimeList.push(timestamp)
-  oldWeightList.push(weight)
-
+  // oldHumidityList.push(hiveHumidity);
+  // oldTempList.push(hiveTemperature);
+  // // oldTimeList.push(timestamp)
+  // oldWeightList.push(weight)
+  Logger.log(typeof timestamp)
 
 
 
     // Create a Firestore document with the extracted data
     var documentData = {
       HiveName: 'Hive1',
-      status: status,
-      timestamp: datetimeToUnix(timestamp),
+      status: existingStatus,
+      timestamp: parseDateTime(date,timestamp),
       hiveTemperature: hiveTemperature,
       hiveHumidity: hiveHumidity,
       supplementQuantity: supplementQuantity,
