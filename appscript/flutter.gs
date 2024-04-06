@@ -12,6 +12,21 @@ function extractTime(timestampString) {
   return timeFormatted; 
 }
 
+function datetimeToUnix(timestamp, yearsToAdd=125) {
+  // Check if timestamp is a Date object
+  if (!(timestamp instanceof Date)) {
+    throw new Error('Input is not a Date object');
+  }
+
+  // Add years to the date
+  var newDate = new Date(timestamp.getTime()); // Create a copy of the input date
+  newDate.setFullYear(newDate.getFullYear() + yearsToAdd); // Add years to the copy
+
+  // Obtain the Unix timestamp from the new date
+  var unixTimestamp = Math.floor(newDate.getTime() / 1000); // Convert milliseconds to seconds
+
+  return unixTimestamp;
+}
 
 function fetchPrediction(syrup_level) {
   if (syrup_level === undefined) {
@@ -47,7 +62,7 @@ function writeDataToFirebase() {
   var dataImport = {};
   var firestore = FirestoreApp.getFirestore(
     "firebase-adminsdk-7kg2n@login-25hn6a.iam.gserviceaccount.com",
-    <FIREBAKEY>,
+    "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQDjdBV/Ruyet/Aj\noVZtueLm3BpIig2zJ/doZFcZIlfKPO6YybHxc40TKp6hhnKqBRc40m3X3trDvmlN\nQdvlTG6U06N8p4aLII/VI//Z738tBikKjozHnlUKAZlpLmZjvQGEePsaxDtGV4eH\nqXriLvYD0AN+ExkIkMxMoitvzvGDnju11nr3sXpPgUxmfary/WUgbqYQO3t63M5Y\npyqq8X8i1fe1jZ3MxVZO0xCmDVc4Rh6ua8+tViCsVDtRKSY8DJCUlDlVBPDSjLRg\nzjI61SxJcaG3Va7mvqzOzQf8Zo7nMqHh48hYtLAB42tfjkZikfUXGYcYm5UEXmIJ\neZaldX1vAgMBAAECggEAGS7JEoZvvELxO4CpaQyjqpvD7TQbwDI0mkJBwm6i+ak1\nYYUzRmBcxjp5xbh1CY32vDvQHY52+iUi04LvLbwAokmsWCjUJKM+SYLq2N5DXmDI\nOnr96zwEfk8fBR42B+TtPhWG97eyOF+IieShzlkUs+db+6FxrBkcBYAO/xoSc1fk\nGJA+ZAVze+pAjLVXUP0Pg+c0jKFozi/egPfQnSuFeN6p5RQi0d6XI673H/5mdOlP\nvTuhP9TCiL+07Pv6iVKFpusQ4kOFPDG/CqEt62EiYlZgYoi+7fZ5ihq+SYsXBJRM\niPhliLCcVUKPWMwQl+zdxStPrEgAYXs96RogOm7XgQKBgQD8DO2ATyiq7ehlRLhC\nRz+xLKMcpE7JqmtE5Jww6ojCiOYogXN4rBik16+fxbULbA85Wm/0uTP2YH4MkB9g\ne+qJHya6mpJKBQ+6sIBKK/3rXDD51grow/lgbYsTA2IMmPf13z5jMV2oSJF9nX1z\n+w0709u7HUL4flT6Xdys3nzN+QKBgQDnBHzqIy1g+T61NeKe6/B9cbkstWGi3og7\nziPB+P7M0RyW52ZbG4taK5AB/Ti9JSGQI+HxIRTQ6UCsMH6j+dDHDhlkSoWUd3Ao\n88ELdeUpqOvijkVcDkIR7xPvvbJazWgTIKw4zV4xAeWqLpx8dbh04vTOQRK7PIYu\nOHQ47awgpwKBgQC6+EAJyS6qtTaKQJLKn52wqSMKMRw83o0aGtd+NcxjOjg5XeWx\nY0AYr+KYi4mEQpF8gwi/qc7Q+b0nRpXv9ZwCQbhx/g18mQqU+y7/VmjSeZ3fBpcr\nGYzYqgnbfcvy+lod6o+V9125YrOCUhxot5eWhM7fm5I9UUFqQ8xZ8+TyyQKBgBsB\nRkzkcdCNMkxikSw8rm8rlRbp2RD97HT5QurQ3ZA5vZrST//Ed4TB5OKmpDRQG91K\npIXYdSN6sMmwHY2zjTlHp6Y2o+jYEW9oFx/s1y4IhhKEyQzaydRo2y7CQRAmRM0/\nm4JEV4dpDlzXeAmAhWB8i1t09eiXSaQri0KAXgevAoGACEWdq/iqub8tY/HbK7Xn\nW/LZE08aU69Ney48rM/Fk1mNQehkURltjp5R2KdG+WsGonqYuLs5Wu1EgLrjb2fH\n5jRtgoZQcIXP0o6LF//63cL9eYpi2yqRga+5vK94UFkrvB7NMwuKDn1dd4u106hl\n0dazr83BLhfw5CBSQuyWJ5o=\n-----END PRIVATE KEY-----\n",
     "login-25hn6a"
   );
 
@@ -84,9 +99,13 @@ function writeDataToFirebase() {
 
     var existingData = firestore.getDocument('hiveDataCollection/' + 'hiveData1');
     var location = existingData['fields']['location']['geoPointValue'];
-    var oldTimeList = existingData['fields']['timeList'];
-var oldHumidityList = existingData['fields']['humidityList'];
-var oldTempList = existingData['fields']['temperatureList'];
+    // var oldTimeList = existingData['fields']['timeList'];
+    var oldHumidityList = existingData['fields']['humidityList'];
+    var oldTempList = existingData['fields']['temperatureList'];
+    var oldWeightList = existingData['fields']['weightList'];
+    
+
+
 
 // Function to convert Firestore values to numbers
 function toNumber(value) {
@@ -139,34 +158,59 @@ if (!Array.isArray(oldTempList)) {
   }
 }
 
-  Logger.log(oldHumidityList)
+// if (!Array.isArray(oldTimeList)) {
+//   // Check if oldTimeList exists in existingData and is an array
+//   if (existingData.fields.timeList && existingData.fields.timeList.arrayValue.values) {
+//     oldTimeList = existingData.fields.timeList.arrayValue.values
+//       .map(function(item) {
+//         return new Date(item.stringValue); // Convert time values to Date objects
+//       })
+//       .filter(function(value) {
+//         return value !== null && !isNaN(value.getTime()); // Filter out invalid dates
+//       });
+//   } else {
+//     oldTimeList = [];
+//   }
+// }
+  
+  if (!Array.isArray(oldWeightList)) {
+  // Check if oldWeightList exists in existingData and is an array
+  if (existingData.fields.weightList && existingData.fields.weightList.arrayValue.values) {
+    oldWeightList = existingData.fields.weightList.arrayValue.values
+      .map(function(item) {
+        return toNumber(item.doubleValue);
+      })
+      .filter(function(value) {
+        return value !== null;
+      });
+  } else {
+    oldWeightList = [];
+  }
+}
+
   oldHumidityList.push(hiveHumidity);
-  Logger.log(oldHumidityList)
   oldTempList.push(hiveTemperature);
   // oldTimeList.push(timestamp)
+  oldWeightList.push(weight)
 
 
 
-
-    var prediction = fetchPrediction(supplementQuantity)
 
     // Create a Firestore document with the extracted data
     var documentData = {
       HiveName: 'Hive1',
       status: status,
-      timestamp: extractTime(timestamp),
+      timestamp: datetimeToUnix(timestamp),
       hiveTemperature: hiveTemperature,
       hiveHumidity: hiveHumidity,
       supplementQuantity: supplementQuantity,
       weight: weight,
       location: location,
       LocationName:'Vamanjoor',
-      statusNumber:statusNumber,
-      statusColor: statusColor,
-      prediction:prediction["prediction"],
       temperatureList:oldTempList,
       humidityList:oldHumidityList,
-      timeList:[],
+      // timeList:oldTimeList,
+      weightList:oldWeightList
 
     };
     Logger.log(documentData)
