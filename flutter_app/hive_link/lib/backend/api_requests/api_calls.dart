@@ -14,7 +14,7 @@ class TestDataCallCall {
     List<double>? weightList,
     int? dateTime,
     String? audioURL =
-        'https://firebasestorage.googleapis.com/v0/b/login-25hn6a.appspot.com/o/users%2FhI4VKFFMydYxlAK8L9OdCOL1C5B3%2Fuploads%2Fhigh.wav?alt=media&token=10b4dab3-3d61-400d-8524-34a5ac19729c',
+        'https://firebasestorage.googleapis.com/v0/b/login-25hn6a.appspot.com/o/users%2FhI4VKFFMydYxlAK8L9OdCOL1C5B3%2Fuploads%2Fswarm.wav?alt=media&token=9088673a-3ff3-4727-9067-dde0448191b3',
   }) async {
     final humidity = _serializeList(humidityList);
     final temperature = _serializeList(temperatureList);
@@ -46,9 +46,21 @@ class TestDataCallCall {
     );
   }
 
-  static dynamic statusActivity(dynamic response) => getJsonField(
+  static dynamic statusHealth(dynamic response) => getJsonField(
         response,
-        r'''$.data.status_activity''',
+        r'''$.data.status_health''',
+      );
+  static dynamic statusSwarm(dynamic response) => getJsonField(
+        response,
+        r'''$.data.status_swarm''',
+      );
+  static dynamic statusWeight(dynamic response) => getJsonField(
+        response,
+        r'''$.data.status_weight''',
+      );
+  static dynamic statusAbscond(dynamic response) => getJsonField(
+        response,
+        r'''$.data.status_abscond''',
       );
 }
 

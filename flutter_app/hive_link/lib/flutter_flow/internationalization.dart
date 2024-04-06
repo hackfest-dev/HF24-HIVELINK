@@ -441,6 +441,16 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
       'hi': 'स्थिति',
       'kn': 'ಸ್ಥಿತಿ',
     },
+    'c7feqxj2': {
+      'en': 'Swarming',
+      'hi': 'स्थिति',
+      'kn': 'ಸ್ಥಿತಿ',
+    },
+    'x6133rp6': {
+      'en': 'Absconding',
+      'hi': 'स्थिति',
+      'kn': 'ಸ್ಥಿತಿ',
+    },
     '58wrsp4j': {
       'en': 'Details',
       'hi': '',

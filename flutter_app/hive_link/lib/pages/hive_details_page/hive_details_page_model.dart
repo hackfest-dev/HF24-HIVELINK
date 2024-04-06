@@ -9,9 +9,21 @@ class HiveDetailsPageModel extends FlutterFlowModel<HiveDetailsPageWidget> {
 
   Color? pageStateColor;
 
-  String? localStatus;
+  String? status;
 
-  int? statusNumber;
+  String? statusSwarm;
+
+  String? statusAbscond;
+
+  int? noStatus;
+
+  int? noSwarm;
+
+  int? noAbscond;
+
+  int? noWeight;
+
+  String? statusWeight;
 
   ///  State fields for stateful widgets in this page.
 

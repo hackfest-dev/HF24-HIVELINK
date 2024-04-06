@@ -43,24 +43,53 @@ class _HiveDetailsPageWidgetState extends State<HiveDetailsPageWidget> {
       );
       if ((_model.automaticCall1?.succeeded ?? true)) {
         setState(() {
-          _model.statusNumber = TestDataCallCall.statusActivity(
+          _model.noStatus = TestDataCallCall.statusHealth(
+            (_model.automaticCall1?.jsonBody ?? ''),
+          );
+          _model.noSwarm = TestDataCallCall.statusSwarm(
+            (_model.automaticCall1?.jsonBody ?? ''),
+          );
+          _model.noAbscond = TestDataCallCall.statusAbscond(
+            (_model.automaticCall1?.jsonBody ?? ''),
+          );
+          _model.noWeight = TestDataCallCall.statusWeight(
             (_model.automaticCall1?.jsonBody ?? ''),
           );
         });
       }
-      if (_model.statusNumber == 0) {
+      if (_model.noStatus == 0) {
         setState(() {
-          _model.localStatus = 'Healthy';
+          _model.status = 'Not Healthy';
         });
-      } else if (_model.statusNumber == 1) {
+      } else {
         setState(() {
-          _model.localStatus = 'Swarming Detected';
+          _model.status = 'Healthy';
         });
       }
 
       await widget.hiveRef!.update(createHiveDataCollectionRecordData(
-        status: _model.localStatus,
+        status: _model.status,
       ));
+      if (_model.noSwarm == 0) {
+        setState(() {
+          _model.statusSwarm = 'Probable Swarming Detected';
+        });
+      } else {
+        setState(() {
+          _model.statusSwarm = 'No Swarming Detected';
+        });
+      }
+
+      if (_model.noAbscond == 0) {
+        setState(() {
+          _model.statusAbscond = 'Probable Absconding Detected';
+        });
+      } else {
+        setState(() {
+          _model.statusAbscond = 'No Absconding Detected';
+        });
+      }
+
       await Future.delayed(const Duration(milliseconds: 60000));
     });
   }
@@ -94,24 +123,59 @@ class _HiveDetailsPageWidgetState extends State<HiveDetailsPageWidget> {
             );
             if ((_model.automaticCall?.succeeded ?? true)) {
               setState(() {
-                _model.statusNumber = TestDataCallCall.statusActivity(
+                _model.noStatus = TestDataCallCall.statusHealth(
+                  (_model.automaticCall?.jsonBody ?? ''),
+                );
+                _model.noSwarm = TestDataCallCall.statusSwarm(
+                  (_model.automaticCall?.jsonBody ?? ''),
+                );
+                _model.noAbscond = TestDataCallCall.statusAbscond(
+                  (_model.automaticCall?.jsonBody ?? ''),
+                );
+                _model.noWeight = TestDataCallCall.statusWeight(
                   (_model.automaticCall?.jsonBody ?? ''),
                 );
               });
             }
-            if (_model.statusNumber == 0) {
+
+            await widget.hiveRef!.update(createHiveDataCollectionRecordData(
+              status: _model.status,
+            ));
+            if (_model.noStatus == 0) {
               setState(() {
-                _model.localStatus = 'Healthy';
+                _model.status = 'Not Healthy';
               });
-            } else if (_model.statusNumber == 1) {
+            } else {
               setState(() {
-                _model.localStatus = 'Swarming Detected';
+                _model.status = 'Healthy';
               });
             }
 
+            await Future.delayed(const Duration(milliseconds: 60000));
+
             await widget.hiveRef!.update(createHiveDataCollectionRecordData(
-              status: _model.localStatus,
+              status: _model.status,
             ));
+            if (_model.noSwarm == 0) {
+              setState(() {
+                _model.statusSwarm = 'Swarming Detected';
+              });
+            } else {
+              setState(() {
+                _model.statusSwarm = 'No Swarming Detected';
+              });
+            }
+
+            if (_model.noAbscond == 0) {
+              setState(() {
+                _model.statusAbscond = 'Absconding Detected';
+              });
+            } else {
+              setState(() {
+                _model.statusAbscond = 'No Absconding Detected';
+              });
+            }
+
             await Future.delayed(const Duration(milliseconds: 60000));
 
             setState(() {});
@@ -533,7 +597,7 @@ class _HiveDetailsPageWidgetState extends State<HiveDetailsPageWidget> {
                                   12.0, 0.0, 0.0, 0.0),
                               child: Text(
                                 valueOrDefault<String>(
-                                  _model.localStatus,
+                                  _model.status,
                                   '‌',
                                 ),
                                 style: FlutterFlowTheme.of(context)
@@ -542,6 +606,126 @@ class _HiveDetailsPageWidgetState extends State<HiveDetailsPageWidget> {
                                       fontFamily: 'Outfit',
                                       color: _model.pageStateColor,
                                       fontSize: 25.0,
+                                      letterSpacing: 0.0,
+                                    ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding:
+                        const EdgeInsetsDirectional.fromSTEB(16.0, 16.0, 16.0, 0.0),
+                    child: Container(
+                      width: double.infinity,
+                      height: 60.0,
+                      decoration: BoxDecoration(
+                        color: FlutterFlowTheme.of(context).secondaryBackground,
+                        borderRadius: BorderRadius.circular(12.0),
+                      ),
+                      alignment: const AlignmentDirectional(0.0, 0.0),
+                      child: Padding(
+                        padding: const EdgeInsets.all(12.0),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.max,
+                          children: [
+                            Icon(
+                              Icons.dangerous_outlined,
+                              color: _model.pageStateColor,
+                              size: 24.0,
+                            ),
+                            Padding(
+                              padding: const EdgeInsetsDirectional.fromSTEB(
+                                  12.0, 0.0, 0.0, 0.0),
+                              child: Text(
+                                FFLocalizations.of(context).getText(
+                                  'c7feqxj2' /* Swarming */,
+                                ),
+                                style: FlutterFlowTheme.of(context)
+                                    .labelMedium
+                                    .override(
+                                      fontFamily: 'Poppins',
+                                      fontSize: 13.0,
+                                      letterSpacing: 0.0,
+                                    ),
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsetsDirectional.fromSTEB(
+                                  12.0, 0.0, 0.0, 0.0),
+                              child: Text(
+                                valueOrDefault<String>(
+                                  _model.statusSwarm,
+                                  '‌',
+                                ),
+                                style: FlutterFlowTheme.of(context)
+                                    .bodyMedium
+                                    .override(
+                                      fontFamily: 'Outfit',
+                                      color: _model.pageStateColor,
+                                      fontSize: 13.0,
+                                      letterSpacing: 0.0,
+                                    ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding:
+                        const EdgeInsetsDirectional.fromSTEB(16.0, 16.0, 16.0, 0.0),
+                    child: Container(
+                      width: double.infinity,
+                      height: 60.0,
+                      decoration: BoxDecoration(
+                        color: FlutterFlowTheme.of(context).secondaryBackground,
+                        borderRadius: BorderRadius.circular(12.0),
+                      ),
+                      alignment: const AlignmentDirectional(0.0, 0.0),
+                      child: Padding(
+                        padding: const EdgeInsets.all(12.0),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.max,
+                          children: [
+                            Icon(
+                              Icons.dangerous_outlined,
+                              color: _model.pageStateColor,
+                              size: 24.0,
+                            ),
+                            Padding(
+                              padding: const EdgeInsetsDirectional.fromSTEB(
+                                  12.0, 0.0, 0.0, 0.0),
+                              child: Text(
+                                FFLocalizations.of(context).getText(
+                                  'x6133rp6' /* Absconding */,
+                                ),
+                                style: FlutterFlowTheme.of(context)
+                                    .labelMedium
+                                    .override(
+                                      fontFamily: 'Poppins',
+                                      fontSize: 13.0,
+                                      letterSpacing: 0.0,
+                                    ),
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsetsDirectional.fromSTEB(
+                                  12.0, 0.0, 0.0, 0.0),
+                              child: Text(
+                                valueOrDefault<String>(
+                                  _model.statusAbscond,
+                                  '‌',
+                                ),
+                                style: FlutterFlowTheme.of(context)
+                                    .bodyMedium
+                                    .override(
+                                      fontFamily: 'Outfit',
+                                      color: _model.pageStateColor,
+                                      fontSize: 13.0,
                                       letterSpacing: 0.0,
                                     ),
                               ),
