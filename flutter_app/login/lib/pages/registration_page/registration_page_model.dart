@@ -16,16 +16,17 @@ class RegistrationPageModel extends FlutterFlowModel<RegistrationPageWidget> {
   FocusNode? textFieldFocusNode2;
   TextEditingController? textController2;
   String? Function(BuildContext, String?)? textController2Validator;
-  // State field(s) for TextField widget.
-  FocusNode? textFieldFocusNode3;
-  TextEditingController? textController3;
-  String? Function(BuildContext, String?)? textController3Validator;
+  DateTime? datePicked;
   // State field(s) for ChoiceChips widget.
   FormFieldController<List<String>>? choiceChipsValueController;
   String? get choiceChipsValue =>
       choiceChipsValueController?.value?.firstOrNull;
   set choiceChipsValue(String? val) =>
       choiceChipsValueController?.value = val != null ? [val] : [];
+  // State field(s) for TextField widget.
+  FocusNode? textFieldFocusNode3;
+  TextEditingController? textController3;
+  String? Function(BuildContext, String?)? textController3Validator;
   // State field(s) for TextField widget.
   FocusNode? textFieldFocusNode4;
   TextEditingController? textController4;
@@ -36,19 +37,15 @@ class RegistrationPageModel extends FlutterFlowModel<RegistrationPageWidget> {
   String? Function(BuildContext, String?)? textController5Validator;
   // State field(s) for TextField widget.
   FocusNode? textFieldFocusNode6;
-  TextEditingController? textController6;
-  String? Function(BuildContext, String?)? textController6Validator;
-  // State field(s) for TextField widget.
-  FocusNode? textFieldFocusNode7;
   TextEditingController? emailTextController;
   String? Function(BuildContext, String?)? emailTextControllerValidator;
   // State field(s) for TextField widget.
-  FocusNode? textFieldFocusNode8;
+  FocusNode? textFieldFocusNode7;
   TextEditingController? passwordTextController;
   late bool passwordVisibility1;
   String? Function(BuildContext, String?)? passwordTextControllerValidator;
   // State field(s) for TextField widget.
-  FocusNode? textFieldFocusNode9;
+  FocusNode? textFieldFocusNode8;
   TextEditingController? confirmPasswordTextController;
   late bool passwordVisibility2;
   String? Function(BuildContext, String?)?
@@ -79,15 +76,12 @@ class RegistrationPageModel extends FlutterFlowModel<RegistrationPageWidget> {
     textController5?.dispose();
 
     textFieldFocusNode6?.dispose();
-    textController6?.dispose();
-
-    textFieldFocusNode7?.dispose();
     emailTextController?.dispose();
 
-    textFieldFocusNode8?.dispose();
+    textFieldFocusNode7?.dispose();
     passwordTextController?.dispose();
 
-    textFieldFocusNode9?.dispose();
+    textFieldFocusNode8?.dispose();
     confirmPasswordTextController?.dispose();
   }
 }

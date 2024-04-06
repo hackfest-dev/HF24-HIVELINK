@@ -5,6 +5,7 @@ import '/flutter_flow/flutter_flow_util.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'home_page_model.dart';
 export 'home_page_model.dart';
 
@@ -137,6 +138,124 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                           child: Column(
                             mainAxisSize: MainAxisSize.max,
                             children: [
+                              Padding(
+                                padding: const EdgeInsetsDirectional.fromSTEB(
+                                    0.0, 12.0, 0.0, 0.0),
+                                child: InkWell(
+                                  splashColor: Colors.transparent,
+                                  focusColor: Colors.transparent,
+                                  hoverColor: Colors.transparent,
+                                  highlightColor: Colors.transparent,
+                                  onTap: () async {
+                                    await launchURL(
+                                        'mailto:contact@health.ai.demo');
+                                  },
+                                  child: Material(
+                                    color: Colors.transparent,
+                                    elevation: 3.0,
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(8.0),
+                                    ),
+                                    child: Container(
+                                      width: MediaQuery.sizeOf(context).width *
+                                          0.86,
+                                      height: 100.0,
+                                      decoration: BoxDecoration(
+                                        color: FlutterFlowTheme.of(context)
+                                            .secondary,
+                                        borderRadius:
+                                            BorderRadius.circular(8.0),
+                                      ),
+                                      child: Row(
+                                        mainAxisSize: MainAxisSize.max,
+                                        children: [
+                                          Expanded(
+                                            child: PagedListView<
+                                                DocumentSnapshot<Object?>?,
+                                                HivesRecord>(
+                                              pagingController:
+                                                  _model.setListViewController(
+                                                HivesRecord.collection,
+                                              ),
+                                              padding: EdgeInsets.zero,
+                                              reverse: false,
+                                              scrollDirection: Axis.horizontal,
+                                              builderDelegate:
+                                                  PagedChildBuilderDelegate<
+                                                      HivesRecord>(
+                                                // Customize what your widget looks like when it's loading the first page.
+                                                firstPageProgressIndicatorBuilder:
+                                                    (_) => Center(
+                                                  child: SizedBox(
+                                                    width: 40.0,
+                                                    height: 40.0,
+                                                    child: SpinKitPumpingHeart(
+                                                      color:
+                                                          FlutterFlowTheme.of(
+                                                                  context)
+                                                              .primary,
+                                                      size: 40.0,
+                                                    ),
+                                                  ),
+                                                ),
+                                                // Customize what your widget looks like when it's loading another page.
+                                                newPageProgressIndicatorBuilder:
+                                                    (_) => Center(
+                                                  child: SizedBox(
+                                                    width: 40.0,
+                                                    height: 40.0,
+                                                    child: SpinKitPumpingHeart(
+                                                      color:
+                                                          FlutterFlowTheme.of(
+                                                                  context)
+                                                              .primary,
+                                                      size: 40.0,
+                                                    ),
+                                                  ),
+                                                ),
+
+                                                itemBuilder: (context, _,
+                                                    listViewIndex) {
+                                                  final listViewHivesRecord = _model
+                                                      .listViewPagingController!
+                                                      .itemList![listViewIndex];
+                                                  return Align(
+                                                    alignment:
+                                                        const AlignmentDirectional(
+                                                            0.0, -1.0),
+                                                    child: Padding(
+                                                      padding:
+                                                          const EdgeInsetsDirectional
+                                                              .fromSTEB(
+                                                                  8.0,
+                                                                  8.0,
+                                                                  0.0,
+                                                                  0.0),
+                                                      child: Text(
+                                                        'Hive : ${listViewHivesRecord.name}',
+                                                        style:
+                                                            FlutterFlowTheme.of(
+                                                                    context)
+                                                                .bodyMedium
+                                                                .override(
+                                                                  fontFamily:
+                                                                      'Outfit',
+                                                                  letterSpacing:
+                                                                      0.0,
+                                                                ),
+                                                      ),
+                                                    ),
+                                                  );
+                                                },
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
                               Padding(
                                 padding: const EdgeInsetsDirectional.fromSTEB(
                                     0.0, 12.0, 0.0, 0.0),
@@ -293,7 +412,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                                 highlightColor: Colors.transparent,
                                 onTap: () async {
                                   context.pushNamed(
-                                    'myAppointments',
+                                    'myHives',
                                     extra: <String, dynamic>{
                                       kTransitionInfoKey: const TransitionInfo(
                                         hasTransition: true,
@@ -443,7 +562,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                                                     CrossAxisAlignment.start,
                                                 children: [
                                                   Text(
-                                                    'Marketplace',
+                                                    'Feeding Schedule',
                                                     textAlign: TextAlign.start,
                                                     style: FlutterFlowTheme.of(
                                                             context)
@@ -466,111 +585,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                                                                   0.0,
                                                                   8.0),
                                                       child: AutoSizeText(
-                                                        'Give us a call in order to schedule your appointment.',
-                                                        style:
-                                                            FlutterFlowTheme.of(
-                                                                    context)
-                                                                .bodySmall
-                                                                .override(
-                                                                  fontFamily:
-                                                                      'Outfit',
-                                                                  color: const Color(
-                                                                      0xB4FFFFFF),
-                                                                  letterSpacing:
-                                                                      0.0,
-                                                                ),
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ],
-                                              ),
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsetsDirectional.fromSTEB(
-                                    0.0, 12.0, 0.0, 0.0),
-                                child: InkWell(
-                                  splashColor: Colors.transparent,
-                                  focusColor: Colors.transparent,
-                                  hoverColor: Colors.transparent,
-                                  highlightColor: Colors.transparent,
-                                  onTap: () async {
-                                    await launchURL(
-                                        'mailto:contact@health.ai.demo');
-                                  },
-                                  child: Material(
-                                    color: Colors.transparent,
-                                    elevation: 3.0,
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(8.0),
-                                    ),
-                                    child: Container(
-                                      width: MediaQuery.sizeOf(context).width *
-                                          0.86,
-                                      height: 100.0,
-                                      decoration: BoxDecoration(
-                                        color: FlutterFlowTheme.of(context)
-                                            .secondary,
-                                        borderRadius:
-                                            BorderRadius.circular(8.0),
-                                      ),
-                                      child: Row(
-                                        mainAxisSize: MainAxisSize.max,
-                                        children: [
-                                          Padding(
-                                            padding:
-                                                const EdgeInsetsDirectional.fromSTEB(
-                                                    15.0, 0.0, 0.0, 0.0),
-                                            child: Image.network(
-                                              '',
-                                              width: 60.0,
-                                              height: 60.0,
-                                              fit: BoxFit.cover,
-                                            ),
-                                          ),
-                                          Expanded(
-                                            child: Padding(
-                                              padding: const EdgeInsetsDirectional
-                                                  .fromSTEB(
-                                                      10.0, 15.0, 10.0, 0.0),
-                                              child: Column(
-                                                mainAxisSize: MainAxisSize.max,
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.center,
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: [
-                                                  Text(
-                                                    '',
-                                                    textAlign: TextAlign.start,
-                                                    style: FlutterFlowTheme.of(
-                                                            context)
-                                                        .headlineSmall
-                                                        .override(
-                                                          fontFamily: 'Outfit',
-                                                          color: FlutterFlowTheme
-                                                                  .of(context)
-                                                              .alternate,
-                                                          letterSpacing: 0.0,
-                                                        ),
-                                                  ),
-                                                  Expanded(
-                                                    child: Padding(
-                                                      padding:
-                                                          const EdgeInsetsDirectional
-                                                              .fromSTEB(
-                                                                  0.0,
-                                                                  0.0,
-                                                                  0.0,
-                                                                  8.0),
-                                                      child: AutoSizeText(
-                                                        'Check in with the community ',
+                                                        'Check when to feed your bees.',
                                                         style:
                                                             FlutterFlowTheme.of(
                                                                     context)

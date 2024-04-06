@@ -1,3 +1,4 @@
+import '/backend/backend.dart';
 import '/flutter_flow/flutter_flow_google_map.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
@@ -108,24 +109,54 @@ class _MapsPageWidgetState extends State<MapsPageWidget> {
             mainAxisSize: MainAxisSize.max,
             children: [
               Expanded(
-                child: FlutterFlowGoogleMap(
-                  controller: _model.googleMapsController,
-                  onCameraIdle: (latLng) =>
-                      setState(() => _model.googleMapsCenter = latLng),
-                  initialLocation: _model.googleMapsCenter ??=
-                      currentUserLocationValue!,
-                  markerColor: GoogleMarkerColor.violet,
-                  mapType: MapType.normal,
-                  style: GoogleMapStyle.standard,
-                  initialZoom: 14.0,
-                  allowInteraction: true,
-                  allowZoom: true,
-                  showZoomControls: true,
-                  showLocation: true,
-                  showCompass: false,
-                  showMapToolbar: false,
-                  showTraffic: false,
-                  centerMapOnMarkerTap: true,
+                child: StreamBuilder<List<HivesRecord>>(
+                  stream: queryHivesRecord(
+                    queryBuilder: (hivesRecord) =>
+                        hivesRecord.orderBy('location'),
+                  ),
+                  builder: (context, snapshot) {
+                    // Customize what your widget looks like when it's loading.
+                    if (!snapshot.hasData) {
+                      return Center(
+                        child: SizedBox(
+                          width: 40.0,
+                          height: 40.0,
+                          child: SpinKitPumpingHeart(
+                            color: FlutterFlowTheme.of(context).primary,
+                            size: 40.0,
+                          ),
+                        ),
+                      );
+                    }
+                    List<HivesRecord> googleMapHivesRecordList = snapshot.data!;
+                    return FlutterFlowGoogleMap(
+                      controller: _model.googleMapsController,
+                      onCameraIdle: (latLng) =>
+                          setState(() => _model.googleMapsCenter = latLng),
+                      initialLocation: _model.googleMapsCenter ??=
+                          currentUserLocationValue!,
+                      markers: googleMapHivesRecordList
+                          .map(
+                            (googleMapHivesRecord) => FlutterFlowMarker(
+                              googleMapHivesRecord.reference.path,
+                              googleMapHivesRecord.location!,
+                            ),
+                          )
+                          .toList(),
+                      markerColor: GoogleMarkerColor.violet,
+                      mapType: MapType.normal,
+                      style: GoogleMapStyle.standard,
+                      initialZoom: 14.0,
+                      allowInteraction: true,
+                      allowZoom: true,
+                      showZoomControls: true,
+                      showLocation: true,
+                      showCompass: false,
+                      showMapToolbar: false,
+                      showTraffic: false,
+                      centerMapOnMarkerTap: true,
+                    );
+                  },
                 ),
               ),
             ],

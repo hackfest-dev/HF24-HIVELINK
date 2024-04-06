@@ -87,24 +87,9 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
           builder: (context, params) => const LoginPageWidget(),
         ),
         FFRoute(
-          name: 'completeProfile',
-          path: '/completeProfile',
-          builder: (context, params) => const CompleteProfileWidget(),
-        ),
-        FFRoute(
           name: 'forgotPassword',
           path: '/forgotPassword',
           builder: (context, params) => const ForgotPasswordWidget(),
-        ),
-        FFRoute(
-          name: 'addAnotherProfile',
-          path: '/addAnotherProfile',
-          builder: (context, params) => const AddAnotherProfileWidget(),
-        ),
-        FFRoute(
-          name: 'onboarding',
-          path: '/onboarding',
-          builder: (context, params) => const OnboardingWidget(),
         ),
         FFRoute(
           name: 'homePage',
@@ -122,49 +107,11 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
                 ),
         ),
         FFRoute(
-          name: 'myAppointments',
-          path: '/myAppointments',
+          name: 'myHives',
+          path: '/myHives',
           builder: (context, params) => params.isEmpty
-              ? const NavBarPage(initialPage: 'myAppointments')
-              : const MyAppointmentsWidget(),
-        ),
-        FFRoute(
-          name: 'appointmentDetails',
-          path: '/appointmentDetails',
-          builder: (context, params) => AppointmentDetailsWidget(
-            appointmentDetails: params.getParam(
-              'appointmentDetails',
-              ParamType.DocumentReference,
-              false,
-              ['appointments'],
-            ),
-          ),
-        ),
-        FFRoute(
-          name: 'profilePage',
-          path: '/profilePage',
-          builder: (context, params) => params.isEmpty
-              ? const NavBarPage(initialPage: 'profilePage')
-              : ProfilePageWidget(
-                  userProfile: params.getParam(
-                    'userProfile',
-                    ParamType.DocumentReference,
-                    false,
-                    ['users'],
-                  ),
-                ),
-        ),
-        FFRoute(
-          name: 'editProfile',
-          path: '/editProfile',
-          builder: (context, params) => EditProfileWidget(
-            userProfile: params.getParam(
-              'userProfile',
-              ParamType.DocumentReference,
-              false,
-              ['users'],
-            ),
-          ),
+              ? const NavBarPage(initialPage: 'myHives')
+              : const MyHivesWidget(),
         ),
         FFRoute(
           name: 'communityPage',
@@ -172,18 +119,6 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
           builder: (context, params) => params.isEmpty
               ? const NavBarPage(initialPage: 'communityPage')
               : const CommunityPageWidget(),
-        ),
-        FFRoute(
-          name: 'appointmentDetailsProfile',
-          path: '/appointmentDetailsProfile',
-          builder: (context, params) => AppointmentDetailsProfileWidget(
-            appointmentDetails: params.getParam(
-              'appointmentDetails',
-              ParamType.DocumentReference,
-              false,
-              ['appointments'],
-            ),
-          ),
         ),
         FFRoute(
           name: 'mapsPage',
@@ -194,6 +129,18 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
           name: 'registrationPage',
           path: '/registrationPage',
           builder: (context, params) => const RegistrationPageWidget(),
+        ),
+        FFRoute(
+          name: 'hiveDetailsPage',
+          path: '/hiveDetailsPage',
+          builder: (context, params) => HiveDetailsPageWidget(
+            hives: params.getParam(
+              'hives',
+              ParamType.DocumentReference,
+              false,
+              ['hives'],
+            ),
+          ),
         )
       ].map((r) => r.toRoute(appStateNotifier)).toList(),
     );

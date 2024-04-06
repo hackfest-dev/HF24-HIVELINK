@@ -1,10 +1,12 @@
 import '/auth/firebase_auth/auth_util.dart';
+import '/backend/backend.dart';
 import '/flutter_flow/flutter_flow_choice_chips.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
 import '/flutter_flow/form_field_controller.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_datetime_picker_plus/flutter_datetime_picker_plus.dart';
 import 'registration_page_model.dart';
 export 'registration_page_model.dart';
 
@@ -40,17 +42,14 @@ class _RegistrationPageWidgetState extends State<RegistrationPageWidget> {
     _model.textController5 ??= TextEditingController();
     _model.textFieldFocusNode5 ??= FocusNode();
 
-    _model.textController6 ??= TextEditingController();
+    _model.emailTextController ??= TextEditingController();
     _model.textFieldFocusNode6 ??= FocusNode();
 
-    _model.emailTextController ??= TextEditingController();
+    _model.passwordTextController ??= TextEditingController();
     _model.textFieldFocusNode7 ??= FocusNode();
 
-    _model.passwordTextController ??= TextEditingController();
-    _model.textFieldFocusNode8 ??= FocusNode();
-
     _model.confirmPasswordTextController ??= TextEditingController();
-    _model.textFieldFocusNode9 ??= FocusNode();
+    _model.textFieldFocusNode8 ??= FocusNode();
   }
 
   @override
@@ -165,36 +164,6 @@ class _RegistrationPageWidgetState extends State<RegistrationPageWidget> {
                                   16.0, 8.0, 16.0, 8.0),
                               child: Container(
                                 decoration: const BoxDecoration(),
-                                child: Padding(
-                                  padding: const EdgeInsetsDirectional.fromSTEB(
-                                      16.0, 0.0, 16.0, 8.0),
-                                  child: FFButtonWidget(
-                                    onPressed: () {
-                                      print('Button pressed ...');
-                                    },
-                                    text: 'Upload Aadhar Card Photo',
-                                    options: FFButtonOptions(
-                                      width: double.infinity,
-                                      height: 50.0,
-                                      padding: const EdgeInsetsDirectional.fromSTEB(
-                                          0.0, 0.0, 0.0, 0.0),
-                                      iconPadding:
-                                          const EdgeInsetsDirectional.fromSTEB(
-                                              0.0, 0.0, 0.0, 0.0),
-                                      color:
-                                          FlutterFlowTheme.of(context).primary,
-                                      textStyle: FlutterFlowTheme.of(context)
-                                          .titleMedium
-                                          .override(
-                                            fontFamily: 'Outfit',
-                                            color: Colors.white,
-                                            letterSpacing: 0.0,
-                                          ),
-                                      elevation: 2.0,
-                                      borderRadius: BorderRadius.circular(10.0),
-                                    ),
-                                  ),
-                                ),
                               ),
                             ),
                             Padding(
@@ -202,36 +171,6 @@ class _RegistrationPageWidgetState extends State<RegistrationPageWidget> {
                                   16.0, 0.0, 16.0, 0.0),
                               child: Container(
                                 decoration: const BoxDecoration(),
-                                child: Padding(
-                                  padding: const EdgeInsetsDirectional.fromSTEB(
-                                      16.0, 8.0, 16.0, 8.0),
-                                  child: FFButtonWidget(
-                                    onPressed: () {
-                                      print('Button pressed ...');
-                                    },
-                                    text: 'Upload Recent Photo',
-                                    options: FFButtonOptions(
-                                      width: double.infinity,
-                                      height: 50.0,
-                                      padding: const EdgeInsetsDirectional.fromSTEB(
-                                          0.0, 0.0, 0.0, 0.0),
-                                      iconPadding:
-                                          const EdgeInsetsDirectional.fromSTEB(
-                                              0.0, 0.0, 0.0, 0.0),
-                                      color:
-                                          FlutterFlowTheme.of(context).primary,
-                                      textStyle: FlutterFlowTheme.of(context)
-                                          .titleMedium
-                                          .override(
-                                            fontFamily: 'Outfit',
-                                            color: Colors.white,
-                                            letterSpacing: 0.0,
-                                          ),
-                                      elevation: 2.0,
-                                      borderRadius: BorderRadius.circular(10.0),
-                                    ),
-                                  ),
-                                ),
                               ),
                             ),
                             Padding(
@@ -292,60 +231,45 @@ class _RegistrationPageWidgetState extends State<RegistrationPageWidget> {
                               ),
                             ),
                             Padding(
-                              padding: const EdgeInsets.all(16.0),
-                              child: TextFormField(
-                                controller: _model.textController3,
-                                focusNode: _model.textFieldFocusNode3,
-                                autofocus: false,
-                                obscureText: false,
-                                decoration: InputDecoration(
-                                  labelText: 'Date of Birth',
-                                  hintText: 'Enter your date of birth',
-                                  hintStyle: FlutterFlowTheme.of(context)
-                                      .bodyLarge
+                              padding: const EdgeInsetsDirectional.fromSTEB(
+                                  16.0, 8.0, 16.0, 8.0),
+                              child: FFButtonWidget(
+                                onPressed: () async {
+                                  await DatePicker.showDatePicker(
+                                    context,
+                                    showTitleActions: true,
+                                    onConfirm: (date) {
+                                      safeSetState(() {
+                                        _model.datePicked = date;
+                                      });
+                                    },
+                                    currentTime: getCurrentTimestamp,
+                                    minTime: DateTime(0, 0, 0),
+                                    maxTime: getCurrentTimestamp,
+                                  );
+                                },
+                                text: 'Enter your date of birth',
+                                options: FFButtonOptions(
+                                  height: 40.0,
+                                  padding: const EdgeInsetsDirectional.fromSTEB(
+                                      24.0, 0.0, 24.0, 0.0),
+                                  iconPadding: const EdgeInsetsDirectional.fromSTEB(
+                                      0.0, 0.0, 0.0, 0.0),
+                                  color: FlutterFlowTheme.of(context).primary,
+                                  textStyle: FlutterFlowTheme.of(context)
+                                      .titleSmall
                                       .override(
-                                        fontFamily: 'Poppins',
+                                        fontFamily: 'Outfit',
+                                        color: Colors.white,
                                         letterSpacing: 0.0,
                                       ),
-                                  enabledBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                      color:
-                                          FlutterFlowTheme.of(context).primary,
-                                      width: 2.0,
-                                    ),
-                                    borderRadius: BorderRadius.circular(10.0),
+                                  elevation: 3.0,
+                                  borderSide: const BorderSide(
+                                    color: Colors.transparent,
+                                    width: 1.0,
                                   ),
-                                  focusedBorder: OutlineInputBorder(
-                                    borderSide: const BorderSide(
-                                      color: Color(0x00000000),
-                                      width: 2.0,
-                                    ),
-                                    borderRadius: BorderRadius.circular(10.0),
-                                  ),
-                                  errorBorder: OutlineInputBorder(
-                                    borderSide: const BorderSide(
-                                      color: Color(0x00000000),
-                                      width: 2.0,
-                                    ),
-                                    borderRadius: BorderRadius.circular(10.0),
-                                  ),
-                                  focusedErrorBorder: OutlineInputBorder(
-                                    borderSide: const BorderSide(
-                                      color: Color(0x00000000),
-                                      width: 2.0,
-                                    ),
-                                    borderRadius: BorderRadius.circular(10.0),
-                                  ),
+                                  borderRadius: BorderRadius.circular(8.0),
                                 ),
-                                style: FlutterFlowTheme.of(context)
-                                    .bodyMedium
-                                    .override(
-                                      fontFamily: 'Outfit',
-                                      letterSpacing: 0.0,
-                                    ),
-                                minLines: null,
-                                validator: _model.textController3Validator
-                                    .asValidator(context),
                               ),
                             ),
                             Padding(
@@ -403,13 +327,70 @@ class _RegistrationPageWidgetState extends State<RegistrationPageWidget> {
                             Padding(
                               padding: const EdgeInsets.all(16.0),
                               child: TextFormField(
-                                controller: _model.textController4,
-                                focusNode: _model.textFieldFocusNode4,
+                                controller: _model.textController3,
+                                focusNode: _model.textFieldFocusNode3,
                                 autofocus: false,
                                 obscureText: false,
                                 decoration: InputDecoration(
                                   labelText: 'Address',
                                   hintText: 'Enter your address',
+                                  hintStyle: FlutterFlowTheme.of(context)
+                                      .bodyLarge
+                                      .override(
+                                        fontFamily: 'Poppins',
+                                        letterSpacing: 0.0,
+                                      ),
+                                  enabledBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                      color:
+                                          FlutterFlowTheme.of(context).primary,
+                                      width: 2.0,
+                                    ),
+                                    borderRadius: BorderRadius.circular(10.0),
+                                  ),
+                                  focusedBorder: OutlineInputBorder(
+                                    borderSide: const BorderSide(
+                                      color: Color(0x00000000),
+                                      width: 2.0,
+                                    ),
+                                    borderRadius: BorderRadius.circular(10.0),
+                                  ),
+                                  errorBorder: OutlineInputBorder(
+                                    borderSide: const BorderSide(
+                                      color: Color(0x00000000),
+                                      width: 2.0,
+                                    ),
+                                    borderRadius: BorderRadius.circular(10.0),
+                                  ),
+                                  focusedErrorBorder: OutlineInputBorder(
+                                    borderSide: const BorderSide(
+                                      color: Color(0x00000000),
+                                      width: 2.0,
+                                    ),
+                                    borderRadius: BorderRadius.circular(10.0),
+                                  ),
+                                ),
+                                style: FlutterFlowTheme.of(context)
+                                    .bodyMedium
+                                    .override(
+                                      fontFamily: 'Outfit',
+                                      letterSpacing: 0.0,
+                                    ),
+                                minLines: null,
+                                validator: _model.textController3Validator
+                                    .asValidator(context),
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.all(16.0),
+                              child: TextFormField(
+                                controller: _model.textController4,
+                                focusNode: _model.textFieldFocusNode4,
+                                autofocus: false,
+                                obscureText: false,
+                                decoration: InputDecoration(
+                                  labelText: 'Postal code',
+                                  hintText: 'Enter your postal code',
                                   hintStyle: FlutterFlowTheme.of(context)
                                       .bodyLarge
                                       .override(
@@ -465,8 +446,8 @@ class _RegistrationPageWidgetState extends State<RegistrationPageWidget> {
                                 autofocus: false,
                                 obscureText: false,
                                 decoration: InputDecoration(
-                                  labelText: 'Postal code',
-                                  hintText: 'Enter your postal code',
+                                  labelText: 'Mobile Number',
+                                  hintText: 'Enter your mobile number',
                                   hintStyle: FlutterFlowTheme.of(context)
                                       .bodyLarge
                                       .override(
@@ -517,65 +498,8 @@ class _RegistrationPageWidgetState extends State<RegistrationPageWidget> {
                             Padding(
                               padding: const EdgeInsets.all(16.0),
                               child: TextFormField(
-                                controller: _model.textController6,
-                                focusNode: _model.textFieldFocusNode6,
-                                autofocus: false,
-                                obscureText: false,
-                                decoration: InputDecoration(
-                                  labelText: 'Mobile Number',
-                                  hintText: 'Enter your mobile number',
-                                  hintStyle: FlutterFlowTheme.of(context)
-                                      .bodyLarge
-                                      .override(
-                                        fontFamily: 'Poppins',
-                                        letterSpacing: 0.0,
-                                      ),
-                                  enabledBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                      color:
-                                          FlutterFlowTheme.of(context).primary,
-                                      width: 2.0,
-                                    ),
-                                    borderRadius: BorderRadius.circular(10.0),
-                                  ),
-                                  focusedBorder: OutlineInputBorder(
-                                    borderSide: const BorderSide(
-                                      color: Color(0x00000000),
-                                      width: 2.0,
-                                    ),
-                                    borderRadius: BorderRadius.circular(10.0),
-                                  ),
-                                  errorBorder: OutlineInputBorder(
-                                    borderSide: const BorderSide(
-                                      color: Color(0x00000000),
-                                      width: 2.0,
-                                    ),
-                                    borderRadius: BorderRadius.circular(10.0),
-                                  ),
-                                  focusedErrorBorder: OutlineInputBorder(
-                                    borderSide: const BorderSide(
-                                      color: Color(0x00000000),
-                                      width: 2.0,
-                                    ),
-                                    borderRadius: BorderRadius.circular(10.0),
-                                  ),
-                                ),
-                                style: FlutterFlowTheme.of(context)
-                                    .bodyMedium
-                                    .override(
-                                      fontFamily: 'Outfit',
-                                      letterSpacing: 0.0,
-                                    ),
-                                minLines: null,
-                                validator: _model.textController6Validator
-                                    .asValidator(context),
-                              ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.all(16.0),
-                              child: TextFormField(
                                 controller: _model.emailTextController,
-                                focusNode: _model.textFieldFocusNode7,
+                                focusNode: _model.textFieldFocusNode6,
                                 autofocus: false,
                                 obscureText: false,
                                 decoration: InputDecoration(
@@ -632,7 +556,7 @@ class _RegistrationPageWidgetState extends State<RegistrationPageWidget> {
                               padding: const EdgeInsets.all(16.0),
                               child: TextFormField(
                                 controller: _model.passwordTextController,
-                                focusNode: _model.textFieldFocusNode8,
+                                focusNode: _model.textFieldFocusNode7,
                                 autofocus: false,
                                 obscureText: !_model.passwordVisibility1,
                                 decoration: InputDecoration(
@@ -706,7 +630,7 @@ class _RegistrationPageWidgetState extends State<RegistrationPageWidget> {
                               child: TextFormField(
                                 controller:
                                     _model.confirmPasswordTextController,
-                                focusNode: _model.textFieldFocusNode9,
+                                focusNode: _model.textFieldFocusNode8,
                                 autofocus: false,
                                 obscureText: !_model.passwordVisibility2,
                                 decoration: InputDecoration(
@@ -803,6 +727,24 @@ class _RegistrationPageWidgetState extends State<RegistrationPageWidget> {
                                   if (user == null) {
                                     return;
                                   }
+
+                                  await UsersRecord.collection
+                                      .doc(user.uid)
+                                      .update(createUsersRecordData(
+                                        aadharNumber: int.tryParse(
+                                            _model.textController1.text),
+                                        name: _model.textController2.text,
+                                        pincode: int.tryParse(
+                                            _model.textController4.text),
+                                        phoneNumber:
+                                            _model.textController5.text,
+                                        email: '',
+                                        password:
+                                            _model.passwordTextController.text,
+                                        address: _model.textController3.text,
+                                        userSex: _model.choiceChipsValue,
+                                        dateOfBirth: _model.datePicked,
+                                      ));
 
                                   context.goNamedAuth(
                                       'homePage', context.mounted);

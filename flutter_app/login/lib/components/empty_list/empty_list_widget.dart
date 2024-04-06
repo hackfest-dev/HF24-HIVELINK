@@ -1,4 +1,3 @@
-import '/components/book_appointment/book_appointment_widget.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
@@ -85,22 +84,8 @@ class _EmptyListWidgetState extends State<EmptyListWidget> {
         Padding(
           padding: const EdgeInsetsDirectional.fromSTEB(0.0, 12.0, 0.0, 0.0),
           child: FFButtonWidget(
-            onPressed: () async {
-              await showModalBottomSheet(
-                isScrollControlled: true,
-                backgroundColor: Colors.transparent,
-                barrierColor: const Color(0x230E151B),
-                context: context,
-                builder: (context) {
-                  return Padding(
-                    padding: MediaQuery.viewInsetsOf(context),
-                    child: const SizedBox(
-                      height: double.infinity,
-                      child: BookAppointmentWidget(),
-                    ),
-                  );
-                },
-              ).then((value) => safeSetState(() {}));
+            onPressed: () {
+              print('Button pressed ...');
             },
             text: 'Schedule',
             options: FFButtonOptions(

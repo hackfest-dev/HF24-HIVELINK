@@ -119,9 +119,8 @@ class _NavBarPageState extends State<NavBarPage> {
   Widget build(BuildContext context) {
     final tabs = {
       'homePage': const HomePageWidget(),
-      'myAppointments': const MyAppointmentsWidget(),
+      'myHives': const MyHivesWidget(),
       'communityPage': const CommunityPageWidget(),
-      'profilePage': const ProfilePageWidget(),
     };
     final currentIndex = tabs.keys.toList().indexOf(_currentPageName);
 
@@ -171,18 +170,6 @@ class _NavBarPageState extends State<NavBarPage> {
             ),
             activeIcon: Icon(
               Icons.favorite_rounded,
-              size: 24.0,
-            ),
-            label: '•',
-            tooltip: '',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(
-              Icons.account_circle_outlined,
-              size: 24.0,
-            ),
-            activeIcon: Icon(
-              Icons.account_circle_rounded,
               size: 24.0,
             ),
             label: '•',

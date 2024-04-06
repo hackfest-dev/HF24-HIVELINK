@@ -76,102 +76,90 @@ class _HiveinformationWidgetState extends State<HiveinformationWidget> {
               appointmentCardHivesRecordList.isNotEmpty
                   ? appointmentCardHivesRecordList.first
                   : null;
-          return InkWell(
-            splashColor: Colors.transparent,
-            focusColor: Colors.transparent,
-            hoverColor: Colors.transparent,
-            highlightColor: Colors.transparent,
-            onTap: () async {
-              context.pushNamed('appointmentDetails');
-            },
-            child: Container(
-              width: MediaQuery.sizeOf(context).width * 1.0,
-              height: 110.0,
-              decoration: BoxDecoration(
-                color: FlutterFlowTheme.of(context).secondaryBackground,
-                boxShadow: const [
-                  BoxShadow(
-                    blurRadius: 4.0,
-                    color: Color(0x230E151B),
-                    offset: Offset(
-                      0.0,
-                      2.0,
-                    ),
-                  )
-                ],
-                borderRadius: BorderRadius.circular(8.0),
-              ),
-              child: Padding(
-                padding: const EdgeInsets.all(12.0),
-                child: Column(
-                  mainAxisSize: MainAxisSize.max,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      mainAxisSize: MainAxisSize.max,
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Expanded(
-                          child: Padding(
-                            padding: const EdgeInsetsDirectional.fromSTEB(
-                                4.0, 0.0, 0.0, 0.0),
-                            child: Text(
-                              widget.parameter1!,
-                              style: FlutterFlowTheme.of(context)
-                                  .headlineSmall
-                                  .override(
-                                    fontFamily: 'Outfit',
-                                    letterSpacing: 0.0,
-                                  ),
-                            ),
-                          ),
-                        ),
-                        Icon(
-                          Icons.chevron_right_rounded,
-                          color: FlutterFlowTheme.of(context).grayLight,
-                          size: 24.0,
-                        ),
-                      ],
-                    ),
-                    Expanded(
-                      child: Padding(
-                        padding:
-                            const EdgeInsetsDirectional.fromSTEB(4.0, 4.0, 4.0, 0.0),
-                        child: Text(
-                          valueOrDefault<String>(
-                            'Hive: ${appointmentCardHivesRecord?.name}',
-                            'Hive:',
-                          ),
-                          style: FlutterFlowTheme.of(context)
-                              .bodyMedium
-                              .override(
-                                fontFamily: 'Outfit',
-                                color: FlutterFlowTheme.of(context).secondary,
-                                letterSpacing: 0.0,
-                              ),
-                        ),
-                      ),
-                    ),
-                    Row(
-                      mainAxisSize: MainAxisSize.max,
-                      children: [
-                        Padding(
+          return Container(
+            width: MediaQuery.sizeOf(context).width * 1.0,
+            height: 110.0,
+            decoration: BoxDecoration(
+              color: FlutterFlowTheme.of(context).secondaryBackground,
+              boxShadow: const [
+                BoxShadow(
+                  blurRadius: 4.0,
+                  color: Color(0x230E151B),
+                  offset: Offset(
+                    0.0,
+                    2.0,
+                  ),
+                )
+              ],
+              borderRadius: BorderRadius.circular(8.0),
+            ),
+            child: Padding(
+              padding: const EdgeInsets.all(12.0),
+              child: Column(
+                mainAxisSize: MainAxisSize.max,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    mainAxisSize: MainAxisSize.max,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Expanded(
+                        child: Padding(
                           padding: const EdgeInsetsDirectional.fromSTEB(
-                              8.0, 4.0, 0.0, 4.0),
+                              4.0, 0.0, 0.0, 0.0),
                           child: Text(
-                            widget.parameter3!,
+                            widget.parameter1!,
                             style: FlutterFlowTheme.of(context)
-                                .bodyMedium
+                                .headlineSmall
                                 .override(
                                   fontFamily: 'Outfit',
                                   letterSpacing: 0.0,
                                 ),
                           ),
                         ),
-                      ],
+                      ),
+                      Icon(
+                        Icons.chevron_right_rounded,
+                        color: FlutterFlowTheme.of(context).grayLight,
+                        size: 24.0,
+                      ),
+                    ],
+                  ),
+                  Expanded(
+                    child: Padding(
+                      padding:
+                          const EdgeInsetsDirectional.fromSTEB(4.0, 4.0, 4.0, 0.0),
+                      child: Text(
+                        valueOrDefault<String>(
+                          'Hive: ${appointmentCardHivesRecord?.name}',
+                          'Hive:',
+                        ),
+                        style: FlutterFlowTheme.of(context).bodyMedium.override(
+                              fontFamily: 'Outfit',
+                              color: FlutterFlowTheme.of(context).secondary,
+                              letterSpacing: 0.0,
+                            ),
+                      ),
                     ),
-                  ],
-                ),
+                  ),
+                  Row(
+                    mainAxisSize: MainAxisSize.max,
+                    children: [
+                      Padding(
+                        padding:
+                            const EdgeInsetsDirectional.fromSTEB(8.0, 4.0, 0.0, 4.0),
+                        child: Text(
+                          widget.parameter3!,
+                          style:
+                              FlutterFlowTheme.of(context).bodyMedium.override(
+                                    fontFamily: 'Outfit',
+                                    letterSpacing: 0.0,
+                                  ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
               ),
             ),
           );
