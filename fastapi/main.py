@@ -1,17 +1,20 @@
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
+from ultralytics import YOLO
 
-class HiveData(BaseModel):
-    humidity: str
-    temperature: str
-    weight: str
-    audioURI: str
 
 app = FastAPI()
 
+model = YOLO("../ml_model/best.pt")
+
+
+
+
+
 @app.post("/hive")
-async def get_hive(data: HiveData):
-        return { "data": data }
+async def hive(data: dict):
+    print(data)
+    return { "data": data }
 
 @app.get("/")
 def read_root():
