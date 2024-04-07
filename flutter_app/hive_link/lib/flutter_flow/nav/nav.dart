@@ -148,14 +148,9 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
         FFRoute(
           name: 'DataSimulationPage',
           path: '/dataSimulationPage',
-          builder: (context, params) => DataSimulationPageWidget(
-            hiveInfo: params.getParam(
-              'hiveInfo',
-              ParamType.DocumentReference,
-              false,
-              ['hiveDataCollection'],
-            ),
-          ),
+          builder: (context, params) => params.isEmpty
+              ? const NavBarPage(initialPage: 'DataSimulationPage')
+              : const DataSimulationPageWidget(),
         ),
         FFRoute(
           name: 'GraphPage',

@@ -42,55 +42,42 @@ class _HiveDetailsPageWidgetState extends State<HiveDetailsPageWidget> {
         dateTime: _model.loadhiveRef1?.timestamp?.secondsSinceEpoch,
       );
       if ((_model.automaticCall1?.succeeded ?? true)) {
-        setState(() {
-          _model.noStatus = TestDataCallCall.statusHealth(
-            (_model.automaticCall1?.jsonBody ?? ''),
-          );
-          _model.noSwarm = TestDataCallCall.statusSwarm(
-            (_model.automaticCall1?.jsonBody ?? ''),
-          );
-          _model.noAbscond = TestDataCallCall.statusAbscond(
-            (_model.automaticCall1?.jsonBody ?? ''),
-          );
-          _model.noWeight = TestDataCallCall.statusWeight(
-            (_model.automaticCall1?.jsonBody ?? ''),
-          );
-        });
+        _model.noStatus = TestDataCallCall.statusHealth(
+          (_model.automaticCall1?.jsonBody ?? ''),
+        );
+        _model.noSwarm = TestDataCallCall.statusSwarm(
+          (_model.automaticCall1?.jsonBody ?? ''),
+        );
+        _model.noAbscond = TestDataCallCall.statusAbscond(
+          (_model.automaticCall1?.jsonBody ?? ''),
+        );
+        _model.noWeight = TestDataCallCall.statusWeight(
+          (_model.automaticCall1?.jsonBody ?? ''),
+        );
       }
       if (_model.noStatus == 0) {
-        setState(() {
-          _model.status = 'Not Healthy';
-        });
+        _model.status = 'Not Healthy';
       } else {
-        setState(() {
-          _model.status = 'Healthy';
-        });
+        _model.status = 'Healthy';
       }
+
+      if (_model.noSwarm == 0) {
+        _model.statusSwarm = 'Probable Swarming Detected';
+      } else {
+        _model.statusSwarm = 'No Swarming Detected';
+      }
+
+      if (_model.noAbscond == 0) {
+        _model.statusAbscond = 'Probable Absconding Detected';
+      } else {
+        _model.statusAbscond = 'No Absconding Detected';
+      }
+
+      await Future.delayed(const Duration(milliseconds: 60000));
 
       await widget.hiveRef!.update(createHiveDataCollectionRecordData(
         status: _model.status,
       ));
-      if (_model.noSwarm == 0) {
-        setState(() {
-          _model.statusSwarm = 'Probable Swarming Detected';
-        });
-      } else {
-        setState(() {
-          _model.statusSwarm = 'No Swarming Detected';
-        });
-      }
-
-      if (_model.noAbscond == 0) {
-        setState(() {
-          _model.statusAbscond = 'Probable Absconding Detected';
-        });
-      } else {
-        setState(() {
-          _model.statusAbscond = 'No Absconding Detected';
-        });
-      }
-
-      await Future.delayed(const Duration(milliseconds: 60000));
     });
   }
 
@@ -122,61 +109,42 @@ class _HiveDetailsPageWidgetState extends State<HiveDetailsPageWidget> {
                   .timestamp?.secondsSinceEpoch,
             );
             if ((_model.automaticCall?.succeeded ?? true)) {
-              setState(() {
-                _model.noStatus = TestDataCallCall.statusHealth(
-                  (_model.automaticCall?.jsonBody ?? ''),
-                );
-                _model.noSwarm = TestDataCallCall.statusSwarm(
-                  (_model.automaticCall?.jsonBody ?? ''),
-                );
-                _model.noAbscond = TestDataCallCall.statusAbscond(
-                  (_model.automaticCall?.jsonBody ?? ''),
-                );
-                _model.noWeight = TestDataCallCall.statusWeight(
-                  (_model.automaticCall?.jsonBody ?? ''),
-                );
-              });
+              _model.noStatus = TestDataCallCall.statusHealth(
+                (_model.automaticCall?.jsonBody ?? ''),
+              );
+              _model.noSwarm = TestDataCallCall.statusSwarm(
+                (_model.automaticCall?.jsonBody ?? ''),
+              );
+              _model.noAbscond = TestDataCallCall.statusAbscond(
+                (_model.automaticCall?.jsonBody ?? ''),
+              );
+              _model.noWeight = TestDataCallCall.statusWeight(
+                (_model.automaticCall?.jsonBody ?? ''),
+              );
             }
-
-            await widget.hiveRef!.update(createHiveDataCollectionRecordData(
-              status: _model.status,
-            ));
             if (_model.noStatus == 0) {
-              setState(() {
-                _model.status = 'Not Healthy';
-              });
+              _model.status = 'Not Healthy';
             } else {
-              setState(() {
-                _model.status = 'Healthy';
-              });
+              _model.status = 'Healthy';
             }
 
-            await Future.delayed(const Duration(milliseconds: 60000));
-
-            await widget.hiveRef!.update(createHiveDataCollectionRecordData(
-              status: _model.status,
-            ));
             if (_model.noSwarm == 0) {
-              setState(() {
-                _model.statusSwarm = 'Swarming Detected';
-              });
+              _model.statusSwarm = 'Probable Swarming Detected';
             } else {
-              setState(() {
-                _model.statusSwarm = 'No Swarming Detected';
-              });
+              _model.statusSwarm = 'No Swarming Detected';
             }
 
             if (_model.noAbscond == 0) {
-              setState(() {
-                _model.statusAbscond = 'Absconding Detected';
-              });
+              _model.statusAbscond = 'Probable Absconding Detected';
             } else {
-              setState(() {
-                _model.statusAbscond = 'No Absconding Detected';
-              });
+              _model.statusAbscond = 'No Absconding Detected';
             }
 
             await Future.delayed(const Duration(milliseconds: 60000));
+
+            await widget.hiveRef!.update(createHiveDataCollectionRecordData(
+              status: _model.status,
+            ));
 
             setState(() {});
           }
@@ -208,31 +176,6 @@ class _HiveDetailsPageWidgetState extends State<HiveDetailsPageWidget> {
           child: Scaffold(
             key: scaffoldKey,
             backgroundColor: FlutterFlowTheme.of(context).primaryBackground,
-            floatingActionButton: FloatingActionButton(
-              onPressed: () async {
-                context.pushNamed(
-                  'GraphPage',
-                  queryParameters: {
-                    'hiveInfo': serializeParam(
-                      widget.hiveRef,
-                      ParamType.DocumentReference,
-                    ),
-                  }.withoutNulls,
-                );
-              },
-              backgroundColor: const Color(0xFFFFD288),
-              elevation: 8.0,
-              child: Text(
-                FFLocalizations.of(context).getText(
-                  '58wrsp4j' /* Details */,
-                ),
-                textAlign: TextAlign.center,
-                style: FlutterFlowTheme.of(context).bodyMedium.override(
-                      fontFamily: 'Outfit',
-                      letterSpacing: 0.0,
-                    ),
-              ),
-            ),
             body: SafeArea(
               top: true,
               child: Column(

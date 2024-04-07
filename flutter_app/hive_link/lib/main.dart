@@ -1,3 +1,4 @@
+import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -18,7 +19,13 @@ void main() async {
 
   await FFLocalizations.initialize();
 
-  runApp(const MyApp());
+  final appState = FFAppState(); // Initialize FFAppState
+  await appState.initializePersistedState();
+
+  runApp(ChangeNotifierProvider(
+    create: (context) => appState,
+    child: const MyApp(),
+  ));
 }
 
 class MyApp extends StatefulWidget {
@@ -128,6 +135,7 @@ class _NavBarPageState extends State<NavBarPage> {
       'homePage': const HomePageWidget(),
       'myHives': const MyHivesWidget(),
       'chatPage': const ChatPageWidget(),
+      'DataSimulationPage': const DataSimulationPageWidget(),
     };
     final currentIndex = tabs.keys.toList().indexOf(_currentPageName);
 
@@ -183,6 +191,15 @@ class _NavBarPageState extends State<NavBarPage> {
             ),
             label: FFLocalizations.of(context).getText(
               'sb79c6an' /* Chat */,
+            ),
+            tooltip: '',
+          ),
+          BottomNavigationBarItem(
+            icon: const Icon(
+              Icons.question_answer,
+            ),
+            label: FFLocalizations.of(context).getText(
+              '8fl12isi' /* Testing */,
             ),
             tooltip: '',
           )

@@ -266,15 +266,7 @@ class _GraphPageWidgetState extends State<GraphPageWidget> {
                     ),
                     FFButtonWidget(
                       onPressed: () async {
-                        context.pushNamed(
-                          'DataSimulationPage',
-                          queryParameters: {
-                            'hiveInfo': serializeParam(
-                              widget.hiveInfo,
-                              ParamType.DocumentReference,
-                            ),
-                          }.withoutNulls,
-                        );
+                        context.pushNamed('DataSimulationPage');
                       },
                       text: FFLocalizations.of(context).getText(
                         'rjipk2o7' /* Test Input */,

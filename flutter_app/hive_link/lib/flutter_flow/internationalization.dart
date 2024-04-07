@@ -451,11 +451,6 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
       'hi': 'स्थिति',
       'kn': 'ಸ್ಥಿತಿ',
     },
-    '58wrsp4j': {
-      'en': 'Details',
-      'hi': '',
-      'kn': '',
-    },
   },
   // chatPage
   {
@@ -527,16 +522,6 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
       'en': 'Enter Hive Temperature',
       'hi': 'अपना आधार कार्ड नंबर दर्ज करें',
       'kn': 'ನಿಮ್ಮ ಆಧಾರ್ ಕಾರ್ಡ್ ಸಂಖ್ಯೆಯನ್ನು ನಮೂದಿಸಿ',
-    },
-    '8ftbyknm': {
-      'en': 'Hive Weight',
-      'hi': 'पता',
-      'kn': 'ವಿಳಾಸ',
-    },
-    '4x2mqw6i': {
-      'en': 'Enter Hive Weight',
-      'hi': 'अपना पता दर्ज करें',
-      'kn': 'ನಿಮ್ಮ ವಿಳಾಸವನ್ನು ನಮೂದಿಸಿ',
     },
     'zbjq7lo2': {
       'en': 'Hive Audio',
@@ -719,6 +704,19 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
       'en': 'Please choose an option from the dropdown',
       'hi': 'कृपया ड्रॉपडाउन से एक विकल्प चुनें',
       'kn': 'ದಯವಿಟ್ಟು ಡ್ರಾಪ್‌ಡೌನ್‌ನಿಂದ ಆಯ್ಕೆಯನ್ನು ಆರಿಸಿ',
+    },
+  },
+  // formEntry
+  {
+    'oosacwf4': {
+      'en': 'Hive Weight',
+      'hi': 'पता',
+      'kn': 'ವಿಳಾಸ',
+    },
+    'x5mzjdqp': {
+      'en': 'Enter Hive Weight',
+      'hi': 'अपना पता दर्ज करें',
+      'kn': 'ನಿಮ್ಮ ವಿಳಾಸವನ್ನು ನಮೂದಿಸಿ',
     },
   },
   // Miscellaneous
