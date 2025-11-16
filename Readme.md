@@ -41,4 +41,5 @@ Absconding is when the entire bee colony, including the queen and worker bees, l
 
 ## License
 
-This project is licensed under the [MIT License](LICENSE).
+© 2025 HiveLink. All rights reserved.
+Unauthorized copying, modification, distribution, or use of this project, in whole or in part, without prior written permission from the author is strictly prohibited.
